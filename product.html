@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product – Little Wear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#29B6F6;--blue-light:#81D4FA;--blue-dark:#0288D1;--navy:#0D2440;--navy-mid:#1A3A5C;--white:#FFFFFF;--cream:#F0F9FF;--yellow:#FFD54F;--pink:#FF8A80;--shadow-blue:rgba(41,182,246,.35);--shadow-navy:rgba(13,36,64,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',sans-serif;background:#f8fbff;color:var(--navy);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:2px solid var(--blue-light);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px;box-shadow:0 4px 24px rgba(41,182,246,.12)}
+  .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+  .nav-logo svg{width:48px;height:48px}
+  .nav-brand{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--navy);line-height:1}
+  .nav-brand span{color:var(--blue)}
+  .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+  .nav-links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:1rem;color:var(--navy);text-decoration:none;padding:8px 18px;border-radius:50px;transition:all .25s;cursor:pointer}
+  .nav-links a:hover,.nav-links a.active{background:var(--blue);color:white;transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow-blue)}
+  .nav-cart{background:var(--navy);color:white;border:none;padding:10px 22px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;box-shadow:0 4px 14px var(--shadow-navy);text-decoration:none}
+  .nav-cart:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow-blue)}
+  .cart-badge{background:var(--yellow);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+
+  /* BREADCRUMB */
+  .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:#8aaac5}
+  .breadcrumb a{color:#8aaac5;text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--blue)}
+  .breadcrumb span{color:var(--navy)}
+
+  /* PRODUCT DETAIL LAYOUT */
+  .product-detail{display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:30px 5% 80px;max-width:1200px;margin:0 auto}
+
+  /* IMAGE PANEL */
+  .product-image-panel{position:sticky;top:100px;height:fit-content}
+  .main-image-box{border-radius:32px;display:flex;align-items:center;justify-content:center;height:480px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(13,36,64,.12);animation:float 4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .main-emoji{font-size:12rem;filter:drop-shadow(0 20px 40px rgba(0,0,0,.2))}
+  .product-badge-detail{position:absolute;top:20px;left:20px;padding:6px 16px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:.85rem;text-transform:uppercase}
+  .badge-new{background:var(--navy);color:white}
+  .badge-hot{background:var(--pink);color:white}
+  .badge-sale{background:var(--yellow);color:var(--navy)}
+  .wishlist-btn{position:absolute;top:20px;right:20px;width:46px;height:46px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 16px rgba(0,0,0,.12);cursor:pointer;transition:transform .2s;border:none}
+  .wishlist-btn:hover{transform:scale(1.15)}
+  .thumb-row{display:flex;gap:12px;margin-top:16px}
+  .thumb{width:80px;height:80px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;cursor:pointer;border:2px solid transparent;transition:all .2s}
+  .thumb:hover,.thumb.active{border-color:var(--blue);box-shadow:0 4px 14px var(--shadow-blue)}
+
+  /* INFO PANEL */
+  .product-info-panel{padding-top:10px}
+  .product-cat-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(41,182,246,.1);color:var(--blue-dark);padding:5px 14px;border-radius:50px;font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;border:1.5px solid rgba(41,182,246,.2)}
+  .product-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--navy);line-height:1.15;margin-bottom:14px}
+  .product-rating-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .stars-lg{color:#FFD54F;font-size:1.3rem}
+  .rating-text{font-weight:700;font-size:.9rem;color:#6b8baa}
+  .price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+  .price-main{font-family:'Fredoka One',cursive;font-size:2.4rem;color:var(--navy)}
+  .price-old{font-size:1.1rem;color:#aaa;text-decoration:line-through;font-weight:600}
+  .save-badge{background:rgba(105,240,174,.2);color:#2e7d32;padding:4px 12px;border-radius:50px;font-size:.82rem;font-weight:800;border:1.5px solid rgba(105,240,174,.4)}
+  .stock-status{font-size:.88rem;font-weight:700;color:#43a047;margin-bottom:24px;display:flex;align-items:center;gap:6px}
+  .stock-dot{width:8px;height:8px;background:#43a047;border-radius:50%;display:inline-block}
+
+  .option-label{font-family:'Baloo 2',cursive;font-weight:800;font-size:.92rem;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+  .option-label span{font-weight:600;color:#7a9ab5;text-transform:none;letter-spacing:0}
+
+  /* SIZE SELECTOR */
+  .size-selector{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+  .size-btn{width:52px;height:52px;border-radius:12px;border:2px solid #dde8f0;background:white;font-family:'Baloo 2',cursive;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .22s;color:var(--navy)}
+  .size-btn:hover,.size-btn.active{border-color:var(--blue);background:var(--blue);color:white;box-shadow:0 4px 12px var(--shadow-blue);transform:translateY(-2px)}
+  .size-btn.unavailable{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+
+  /* COLOR SELECTOR */
+  .color-selector{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+  .color-swatch{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .22s;position:relative}
+  .color-swatch:hover{transform:scale(1.12)}
+  .color-swatch.active{border-color:var(--navy);box-shadow:0 0 0 3px rgba(41,182,246,.35)}
+  .color-swatch::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:.85rem;opacity:0;transition:opacity .2s;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .color-swatch.active::after{opacity:1}
+  .color-name-tag{font-size:.88rem;font-weight:700;color:var(--navy-mid);margin-left:4px}
+
+  /* QTY + CTA */
+  .qty-row{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+  .qty-label{font-family:'Baloo 2',cursive;font-weight:800;font-size:.92rem;color:var(--navy);text-transform:uppercase;letter-spacing:.06em}
+  .qty-control{display:flex;align-items:center;border:2px solid #dde8f0;border-radius:50px;overflow:hidden}
+  .qty-btn{width:42px;height:42px;background:white;border:none;font-size:1.3rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy)}
+  .qty-btn:hover{background:var(--blue-light)}
+  .qty-num{width:50px;text-align:center;font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--navy);background:white;border:none;outline:none}
+
+  .cta-row{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+  .btn-add-cart{flex:1;min-width:180px;background:var(--navy);color:white;border:none;padding:18px 28px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px var(--shadow-navy)}
+  .btn-add-cart:hover{background:var(--blue);transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow-blue)}
+  .btn-checkout{flex:1;min-width:180px;background:var(--blue);color:white;border:none;padding:18px 28px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;box-shadow:0 6px 20px var(--shadow-blue)}
+  .btn-checkout:hover{background:var(--blue-dark);transform:translateY(-3px)}
+
+  /* TRUST BADGES */
+  .trust-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+  .trust-badge{display:flex;align-items:center;gap:6px;background:rgba(41,182,246,.07);border:1.5px solid rgba(41,182,246,.15);border-radius:12px;padding:8px 14px;font-size:.82rem;font-weight:700;color:var(--navy-mid)}
+
+  /* DIVIDER */
+  .detail-divider{height:1px;background:rgba(41,182,246,.15);margin:28px 0}
+
+  /* PRODUCT META */
+  .meta-table{width:100%;border-collapse:collapse}
+  .meta-table td{padding:10px 0;font-size:.92rem;vertical-align:top}
+  .meta-table td:first-child{font-weight:800;color:var(--navy);width:40%;padding-right:16px}
+  .meta-table td:last-child{color:#5a7a99;font-weight:600;line-height:1.6}
+
+  /* TABS */
+  .tabs{display:flex;gap:4px;border-bottom:2px solid rgba(41,182,246,.15);margin-bottom:24px}
+  .tab-btn{padding:12px 20px;border:none;background:none;font-family:'Baloo 2',cursive;font-weight:700;font-size:.92rem;color:#8aaac5;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+  .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+  .tab-content{display:none;font-size:.95rem;color:#5a7a99;line-height:1.8;font-weight:600}
+  .tab-content.active{display:block}
+
+  /* RELATED */
+  .related-section{padding:60px 5% 80px;max-width:1400px;margin:0 auto}
+  .related-section h2{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--navy);margin-bottom:28px}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+  .related-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(13,36,64,.07);border:1.5px solid rgba(41,182,246,.1);cursor:pointer;transition:all .3s}
+  .related-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(13,36,64,.12);border-color:var(--blue)}
+  .related-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:4rem}
+  .related-info{padding:14px 16px 16px}
+  .related-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:.95rem;color:var(--navy);margin-bottom:6px}
+  .related-price{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--navy)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 24px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;box-shadow:0 8px 30px rgba(13,36,64,.3);display:flex;align-items:center;gap:10px;z-index:9999;transform:translateY(100px) scale(.8);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+  .toast.show{transform:translateY(0) scale(1);opacity:1}
+
+  @media(max-width:900px){.product-detail{grid-template-columns:1fr;gap:32px}.product-image-panel{position:static}.main-image-box{height:360px}.main-emoji{font-size:8rem}}
+  @media(max-width:600px){nav{padding:0 4%}.nav-links a{padding:7px 12px;font-size:.85rem}.product-detail{padding:20px 4% 60px}.price-main{font-size:2rem}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="42" cy="42" rx="22" ry="18" fill="#29B6F6" stroke="#0D2440" stroke-width="2"/>
+      <ellipse cx="38" cy="30" rx="18" ry="15" fill="#29B6F6" stroke="#0D2440" stroke-width="2"/>
+      <ellipse cx="24" cy="34" rx="10" ry="7" fill="#29B6F6" stroke="#0D2440" stroke-width="1.5"/>
+      <circle cx="35" cy="24" r="4" fill="#0D2440"/><circle cx="43" cy="23" r="4" fill="#0D2440"/>
+      <circle cx="36" cy="23" r="1.5" fill="white"/><circle cx="44" cy="22" r="1.5" fill="white"/>
+      <circle cx="21" cy="33" r="1.2" fill="#0D2440" opacity="0.6"/>
+      <circle cx="24" cy="32" r="1.2" fill="#0D2440" opacity="0.6"/>
+      <path d="M18 37 Q24 42 30 38" fill="none" stroke="#0D2440" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="23" y="38" width="3" height="5" rx="1.5" fill="white" stroke="#0D2440" stroke-width="0.8"/>
+      <line x1="20" y1="52" x2="65" y2="52" stroke="#0D2440" stroke-width="1.8" stroke-linecap="round"/>
+      <ellipse cx="52" cy="50" rx="10" ry="6" fill="#29B6F6" stroke="#0D2440" stroke-width="1.5"/>
+    </svg>
+    <div class="nav-brand">LITTLE<span>WEAR</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="clothes.html" class="active">Clothes</a></li>
+    <li><a href="clothes.html?filter=sale">Sale 🔥</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a class="nav-cart" href="checkout.html">
+    🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+  </a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a> › <a href="clothes.html">Clothes</a> › <span id="bc-name">Product</span>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div class="product-detail" id="product-detail">
+  <!-- filled by JS -->
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related-section">
+  <h2>You Might Also Love 💙</h2>
+  <div class="related-grid" id="related-grid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script>
+let selectedSize = '';
+let selectedColor = '';
+let quantity = 1;
+let currentProduct = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartBadge();
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) {
+    document.getElementById('product-detail').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:80px"><h2>Product not found</h2><a href="clothes.html">← Back to Shop</a></div>';
+    return;
+  }
+  currentProduct = product;
+  document.title = `${product.name} – Little Wear`;
+  document.getElementById('bc-name').textContent = product.name;
+
+  // Default selections
+  selectedSize = product.sizes[0];
+  selectedColor = product.colors[0].name;
+
+  renderProduct(product);
+  renderRelated(product);
+});
+
+function renderProduct(p) {
+  const saveAmt = p.oldPrice ? p.oldPrice - p.price : 0;
+  const catLabel = p.category === 'boys' ? '👦 Boys' : p.category === 'girls' ? '👧 Girls' : '🌈 Unisex';
+  const badgeHtml = p.badge ? `<div class="product-badge-detail badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='new'?'✨ New':'🏷️ Sale'}</div>` : '';
+
+  document.getElementById('product-detail').innerHTML = `
+    <!-- IMAGE PANEL -->
+    <div class="product-image-panel">
+      <div class="main-image-box" style="background:linear-gradient(135deg,${p.bg},#fff)">
+        ${badgeHtml}
+        <button class="wishlist-btn" id="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+        <span class="main-emoji">${p.emoji}</span>
+      </div>
+      <div class="thumb-row">
+        <div class="thumb active" style="background:${p.bg}">${p.emoji}</div>
+        <div class="thumb" style="background:linear-gradient(135deg,#E3F2FD,white)">${p.emoji}</div>
+        <div class="thumb" style="background:linear-gradient(135deg,#FFF8E1,white)">${p.emoji}</div>
+      </div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="product-info-panel">
+      <div class="product-cat-tag">${catLabel}</div>
+      <h1 class="product-title">${p.name}</h1>
+
+      <div class="product-rating-row">
+        <span class="stars-lg">${'★'.repeat(Math.floor(p.rating))}${p.rating%1>=.5?'½':''}</span>
+        <span class="rating-text">${p.rating} out of 5 · ${p.reviews} reviews</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price-main">Rs ${p.price.toLocaleString()}</span>
+        ${p.oldPrice ? `<span class="price-old">Rs ${p.oldPrice.toLocaleString()}</span><span class="save-badge">Save Rs ${saveAmt.toLocaleString()}</span>` : ''}
+      </div>
+      <div class="stock-status"><span class="stock-dot"></span> In Stock – Ready to Ship</div>
+
+      <!-- SIZE -->
+      <div class="option-label">Size <span id="sel-size-label">· ${p.sizes[0]} selected</span></div>
+      <div class="size-selector" id="size-selector">
+        ${p.sizes.map(s => `<button class="size-btn ${s===p.sizes[0]?'active':''}" onclick="selectSize(this,'${s}')">${s}</button>`).join('')}
+      </div>
+
+      <!-- COLOUR -->
+      <div class="option-label">Colour <span id="sel-color-label">· ${p.colors[0].name}</span></div>
+      <div class="color-selector" id="color-selector">
+        ${p.colors.map((c,i) => `<div class="color-swatch ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="selectColor(this,'${c.name}')"></div>`).join('')}
+        <span class="color-name-tag" id="color-name">${p.colors[0].name}</span>
+      </div>
+
+      <!-- QTY -->
+      <div class="qty-row">
+        <span class="qty-label">Qty</span>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-num" id="qty-display">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-row">
+        <button class="btn-add-cart" onclick="handleAddToCart()">🛒 Add to Cart</button>
+        <a class="btn-checkout" href="checkout.html">💳 Checkout</a>
+      </div>
+
+      <!-- TRUST BADGES -->
+      <div class="trust-row">
+        <div class="trust-badge">🚚 Cash on Delivery</div>
+        <div class="trust-badge">🔄 Easy Returns</div>
+        <div class="trust-badge">✅ Quality Assured</div>
+        <div class="trust-badge">📦 Fast Dispatch</div>
+      </div>
+
+      <div class="detail-divider"></div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this,'desc')">Description</button>
+        <button class="tab-btn" onclick="switchTab(this,'details')">Details</button>
+        <button class="tab-btn" onclick="switchTab(this,'care')">Care Guide</button>
+      </div>
+
+      <div class="tab-content active" id="tab-desc">
+        <p>${p.description}</p>
+      </div>
+      <div class="tab-content" id="tab-details">
+        <table class="meta-table">
+          <tr><td>Category</td><td>${catLabel}</td></tr>
+          <tr><td>Age Group</td><td>${p.ageGroup}</td></tr>
+          <tr><td>Fit</td><td>${p.fit}</td></tr>
+          <tr><td>Material</td><td>${p.material}</td></tr>
+          <tr><td>Available Sizes</td><td>${p.sizes.join(', ')}</td></tr>
+          <tr><td>Available Colours</td><td>${p.colors.map(c=>c.name).join(', ')}</td></tr>
+          <tr><td>SKU</td><td>LW-${String(p.id).padStart(4,'0')}</td></tr>
+        </table>
+      </div>
+      <div class="tab-content" id="tab-care">
+        <p>🧺 <strong>Washing:</strong> ${p.care}</p>
+        <br>
+        <p>💡 <strong>Tips:</strong></p>
+        <ul style="margin-top:8px;padding-left:20px;line-height:2">
+          <li>Wash similar colours together</li>
+          <li>Turn garment inside out to preserve print quality</li>
+          <li>Do not use harsh detergents or bleach</li>
+          <li>Air dry when possible to extend garment life</li>
+          <li>Store folded to avoid stretching</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function renderRelated(current) {
+  const related = PRODUCTS.filter(p => p.id !== current.id && (p.category === current.category || p.badge === current.badge)).slice(0, 4);
+  document.getElementById('related-grid').innerHTML = related.map(p => `
+    <div class="related-card" onclick="location.href='product.html?id=${p.id}'">
+      <div class="related-img" style="background:linear-gradient(135deg,${p.bg},white)">${p.emoji}</div>
+      <div class="related-info">
+        <div class="related-name">${p.name}</div>
+        <div class="related-price">${p.oldPrice?`<span style="font-family:'Nunito';font-size:.82rem;color:#aaa;text-decoration:line-through;font-weight:600">Rs ${p.oldPrice.toLocaleString()}</span> `:''}Rs ${p.price.toLocaleString()}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectSize(btn, size) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedSize = size;
+  document.getElementById('sel-size-label').textContent = `· ${size} selected`;
+}
+
+function selectColor(swatch, name) {
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  swatch.classList.add('active');
+  selectedColor = name;
+  document.getElementById('sel-color-label').textContent = `· ${name}`;
+  document.getElementById('color-name').textContent = name;
+}
+
+function changeQty(delta) {
+  quantity = Math.max(1, Math.min(10, quantity + delta));
+  document.getElementById('qty-display').textContent = quantity;
+}
+
+function handleAddToCart() {
+  if (!selectedSize) { showToast('⚠️ Please select a size'); return; }
+  if (!selectedColor) { showToast('⚠️ Please select a colour'); return; }
+  addToCart(currentProduct.id, selectedSize, selectedColor, quantity);
+  showToast(`🛒 "${currentProduct.name}" (${selectedSize}, ${selectedColor} ×${quantity}) added!`);
+}
+
+function toggleWishlist(btn) { btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍'; showToast(btn.textContent === '❤️' ? '❤️ Added to wishlist!' : '🤍 Removed from wishlist'); }
+
+function switchTab(btn, tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+</script>
+</body>
+</html>

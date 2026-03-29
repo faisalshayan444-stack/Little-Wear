@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little Wear – Pakistan's #1 Kids Clothing Brand</title>
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#29B6F6;--blue-light:#81D4FA;--blue-dark:#0288D1;--navy:#0D2440;--navy-mid:#1A3A5C;--white:#FFFFFF;--cream:#F0F9FF;--yellow:#FFD54F;--pink:#FF8A80;--green:#69F0AE;--shadow-blue:rgba(41,182,246,.35);--shadow-navy:rgba(13,36,64,.25)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--white);color:var(--navy);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:2px solid var(--blue-light);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px;box-shadow:0 4px 24px rgba(41,182,246,.12)}
+.nav-logo{display:flex;align-items:center;gap:6px;text-decoration:none}
+.nav-logo img{height:54px;width:auto;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none}
+.nav-links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;color:var(--navy);text-decoration:none;padding:8px 16px;border-radius:50px;transition:all .25s}
+.nav-links a:hover,.nav-links a.active{background:var(--blue);color:white;transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow-blue)}
+.nav-cart{background:var(--navy);color:white;border:none;padding:10px 20px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all .25s;box-shadow:0 4px 14px var(--shadow-navy)}
+.nav-cart:hover{background:var(--blue);transform:translateY(-2px)}
+.cart-badge{background:var(--yellow);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--cream) 0%,#E1F5FE 55%,#B3E5FC 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(41,182,246,.2) 0%,transparent 70%);border-radius:50%;animation:pulse-blob 4s ease-in-out infinite}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(13,36,64,.08) 0%,transparent 70%);border-radius:50%;animation:pulse-blob 4s ease-in-out infinite 2s}
+@keyframes pulse-blob{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.hero-content{flex:1;z-index:2;max-width:560px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:white;padding:6px 18px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.9rem;margin-bottom:20px;box-shadow:0 4px 14px var(--shadow-blue);animation:bounce-in .6s ease}
+@keyframes bounce-in{0%{transform:scale(0) translateY(-20px);opacity:0}60%{transform:scale(1.15) translateY(4px)}100%{transform:scale(1) translateY(0);opacity:1}}
+.hero h1{font-family:'Fredoka One',cursive;font-size:clamp(3rem,7vw,5.5rem);line-height:1.05;color:var(--navy);margin-bottom:10px;animation:slide-up .7s ease .1s both}
+.highlight{color:var(--blue);display:inline-block;position:relative}
+.highlight::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:6px;background:var(--yellow);border-radius:3px;transform:skewX(-5deg)}
+@keyframes slide-up{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.hero p{font-size:1.15rem;color:var(--navy-mid);line-height:1.7;margin:20px 0 36px;font-weight:600;animation:slide-up .7s ease .2s both}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:slide-up .7s ease .3s both}
+.btn-primary{background:var(--navy);color:white;padding:16px 36px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s;box-shadow:0 6px 20px var(--shadow-navy)}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-4px);box-shadow:0 12px 30px var(--shadow-navy)}
+.btn-secondary{background:white;color:var(--navy);padding:15px 32px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;border:2.5px solid var(--blue);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s}
+.btn-secondary:hover{background:var(--blue);color:white;transform:translateY(-4px)}
+
+/* HERO VISUAL */
+.hero-visual{flex:1;display:flex;justify-content:center;align-items:center;z-index:2}
+.hero-mascot-wrap{position:relative;width:440px;height:440px;display:flex;align-items:center;justify-content:center}
+.hero-mascot-circle{width:380px;height:380px;background:radial-gradient(circle at 35% 35%,#e8f7ff,#B3E5FC 60%,#81D4FA);border-radius:50%;box-shadow:0 30px 80px rgba(41,182,246,.35),0 0 0 18px rgba(41,182,246,.1),0 0 0 36px rgba(41,182,246,.05);display:flex;align-items:center;justify-content:center;animation:float 3.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero-mascot-circle img{width:300px;height:300px;object-fit:contain;filter:drop-shadow(0 12px 30px rgba(13,36,64,.2))}
+.hero-tag{position:absolute;background:white;border-radius:16px;padding:10px 16px;box-shadow:0 8px 30px rgba(0,0,0,.12);font-family:'Baloo 2',cursive;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:6px;white-space:nowrap;animation:tag-float 3s ease-in-out infinite}
+.hero-tag:nth-child(2){top:30px;right:-10px;animation-delay:.5s}
+.hero-tag:nth-child(3){bottom:60px;left:-20px;animation-delay:1s}
+.hero-tag:nth-child(4){bottom:10px;right:10px;animation-delay:1.5s}
+@keyframes tag-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+
+/* LOGO BANNER IN HERO */
+.hero-logo-strip{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.85);border-radius:50px;padding:8px 24px;box-shadow:0 4px 20px rgba(41,182,246,.18);backdrop-filter:blur(8px);border:1.5px solid rgba(41,182,246,.2)}
+.hero-logo-strip img{height:36px;width:auto;object-fit:contain}
+.hero-logo-strip span{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--navy);letter-spacing:.02em}
+
+/* WAVE */
+.wave-divider{width:100%;overflow:hidden;line-height:0;margin-top:-2px}
+.wave-divider svg{display:block;width:100%}
+
+/* STATS */
+.stats-strip{background:var(--navy);padding:28px 5%;display:flex;justify-content:center;gap:60px;flex-wrap:wrap}
+.stat{text-align:center;color:white}
+.stat-num{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--blue-light);display:block;line-height:1}
+.stat-label{font-size:.85rem;opacity:.7;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+
+/* SECTIONS */
+.section{padding:80px 5%}
+.section-header{text-align:center;margin-bottom:52px}
+.section-tag{display:inline-block;background:rgba(41,182,246,.12);color:var(--blue-dark);padding:5px 18px;border-radius:50px;font-weight:800;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;border:1.5px solid rgba(41,182,246,.25)}
+.section-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3rem);color:var(--navy);line-height:1.15;margin-bottom:14px}
+.section-title span{color:var(--blue)}
+.section-sub{font-size:1.05rem;color:#5a7a99;font-weight:600;max-width:500px;margin:0 auto}
+
+/* CATEGORIES */
+.categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:1100px;margin:0 auto}
+.cat-card{border-radius:24px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);text-decoration:none;display:block;transform-style:preserve-3d}
+.cat-card:hover{transform:translateY(-10px) rotateX(5deg) scale(1.03);box-shadow:0 24px 50px rgba(0,0,0,.15)}
+.cat-card.c1{background:linear-gradient(135deg,#E3F2FD,#BBDEFB)}.cat-card.c2{background:linear-gradient(135deg,#FFF8E1,#FFECB3)}.cat-card.c3{background:linear-gradient(135deg,#FCE4EC,#F8BBD0)}.cat-card.c4{background:linear-gradient(135deg,#E8F5E9,#C8E6C9)}.cat-card.c5{background:linear-gradient(135deg,#F3E5F5,#E1BEE7)}
+.cat-icon{font-size:3.5rem;display:block;margin-bottom:14px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1));animation:wiggle 3s ease-in-out infinite}
+.cat-card:nth-child(2) .cat-icon{animation-delay:.4s}.cat-card:nth-child(3) .cat-icon{animation-delay:.8s}.cat-card:nth-child(4) .cat-icon{animation-delay:1.2s}.cat-card:nth-child(5) .cat-icon{animation-delay:1.6s}
+@keyframes wiggle{0%,85%,100%{transform:rotate(0deg)}90%{transform:rotate(-8deg)}95%{transform:rotate(8deg)}}
+.cat-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;color:var(--navy);margin-bottom:4px}
+.cat-count{font-size:.82rem;color:#6b8baa;font-weight:600}
+
+/* PRODUCTS */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px;max-width:1100px;margin:0 auto}
+.product-card{background:white;border-radius:24px;overflow:hidden;transition:all .35s cubic-bezier(.34,1.56,.64,1);position:relative;box-shadow:0 4px 20px rgba(13,36,64,.08);border:1.5px solid rgba(41,182,246,.1);cursor:pointer;text-decoration:none;display:block;color:inherit;transform-style:preserve-3d}
+.product-card:hover{transform:translateY(-12px) rotateY(-3deg) rotateX(3deg);box-shadow:0 30px 60px rgba(13,36,64,.18),0 8px 20px rgba(41,182,246,.2);border-color:var(--blue)}
+.product-img-wrap{height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+/* Logo placeholder behind emoji */
+.product-img-wrap .logo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.07}
+.product-img-wrap .logo-placeholder img{width:130px;height:auto;object-fit:contain}
+.emoji-product{font-size:5rem;transition:transform .3s ease;filter:drop-shadow(0 10px 20px rgba(0,0,0,.15));animation:item-float 4s ease-in-out infinite;position:relative;z-index:1}
+.product-card:hover .emoji-product{transform:scale(1.15) rotate(5deg)}
+@keyframes item-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.product-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:.75rem;text-transform:uppercase;z-index:2}
+.badge-new{background:var(--navy);color:white}.badge-hot{background:#FF5722;color:white}.badge-sale{background:var(--yellow);color:var(--navy)}
+.product-fav{position:absolute;top:12px;right:12px;width:36px;height:36px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;transition:transform .2s;border:none;z-index:2}
+.product-fav:hover{transform:scale(1.2)}
+.product-info{padding:18px 20px 20px}
+.product-category{font-size:.78rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.product-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.product-rating{display:flex;align-items:center;gap:4px;margin-bottom:12px;font-size:.82rem;color:#888;font-weight:600}
+.stars{color:#FFD54F;font-size:.9rem}
+.product-bottom{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--navy)}
+.old-price{font-family:'Nunito',sans-serif;font-size:.85rem;color:#aaa;text-decoration:line-through;margin-right:4px;font-weight:600}
+.add-to-cart{background:var(--navy);color:white;border:none;padding:10px 18px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .22s;display:flex;align-items:center;gap:6px}
+.add-to-cart:hover{background:var(--blue);transform:scale(1.06);box-shadow:0 6px 18px var(--shadow-blue)}
+
+/* BANNER */
+.banner{margin:0 5% 80px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:32px;padding:60px;display:flex;align-items:center;justify-content:space-between;gap:30px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(13,36,64,.3)}
+.banner::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(41,182,246,.25) 0%,transparent 70%);border-radius:50%}
+.banner-content{position:relative;z-index:2}
+.banner h2{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,3rem);color:white;margin-bottom:12px;line-height:1.2}
+.banner h2 span{color:var(--blue-light)}
+.banner p{color:rgba(255,255,255,.7);font-size:1rem;font-weight:600;margin-bottom:28px;max-width:400px}
+.banner-logo{position:relative;z-index:2;animation:float 3s ease-in-out infinite}
+.banner-logo img{height:160px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(0,0,0,.3)) brightness(1.3)}
+
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto}
+.testi-card{background:white;border-radius:24px;padding:28px;box-shadow:0 4px 20px rgba(13,36,64,.06);border:1.5px solid rgba(41,182,246,.1);transition:all .3s}
+.testi-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(41,182,246,.15);border-color:var(--blue)}
+.testi-stars{color:#FFD54F;font-size:1.1rem;margin-bottom:14px}
+.testi-text{font-size:.95rem;line-height:1.7;color:#4a6a88;font-weight:600;margin-bottom:20px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:linear-gradient(135deg,var(--blue-light),var(--blue))}
+.testi-name{font-family:'Baloo 2',cursive;font-weight:800;color:var(--navy);font-size:.9rem}
+.testi-role{font-size:.78rem;color:#8aaac5;font-weight:600}
+
+/* NEWSLETTER */
+.newsletter{background:var(--blue);padding:80px 5%;text-align:center;position:relative;overflow:hidden}
+.newsletter::before{content:'';position:absolute;top:-50%;left:-10%;width:50%;height:200%;background:rgba(255,255,255,.06);transform:rotate(15deg)}
+.newsletter h2{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);color:white;margin-bottom:12px}
+.newsletter p{color:rgba(255,255,255,.85);font-size:1rem;font-weight:600;margin-bottom:32px}
+.newsletter-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
+.newsletter-form input{padding:14px 24px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:600;width:320px;outline:none;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.newsletter-form button{background:var(--navy);color:white;border:none;padding:14px 32px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;cursor:pointer;transition:all .25s}
+.newsletter-form button:hover{background:white;color:var(--navy);transform:translateY(-3px)}
+
+/* FOOTER */
+footer{background:var(--navy);color:white;padding:60px 5% 30px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+.footer-brand p{font-size:.9rem;line-height:1.7;opacity:.65;margin:16px 0 24px;font-weight:600}
+.footer-socials{display:flex;gap:12px}
+.social-btn{width:40px;height:40px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:all .22s;text-decoration:none}
+.social-btn:hover{background:var(--blue);transform:translateY(-3px)}
+.footer-col h4{font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:var(--blue-light);margin-bottom:18px;text-transform:uppercase;letter-spacing:.06em}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.9rem;font-weight:600;transition:color .2s}
+.footer-col ul li a:hover{color:var(--blue-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;opacity:.5;font-weight:600;flex-wrap:wrap;gap:10px}
+
+/* FOOTER LOGO */
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.footer-logo-wrap img{height:44px;width:auto;object-fit:contain;filter:brightness(0) invert(1) opacity(.9)}
+.footer-logo-wrap span{font-family:'Fredoka One',cursive;font-size:1.6rem;color:white}
+.footer-logo-wrap span b{color:var(--blue-light)}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 24px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;box-shadow:0 8px 30px rgba(13,36,64,.3);display:flex;align-items:center;gap:10px;z-index:9999;transform:translateY(100px) scale(.8);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.toast.show{transform:translateY(0) scale(1);opacity:1}
+
+@media(max-width:900px){.hero{flex-direction:column;text-align:center;padding-top:110px}.hero-btns{justify-content:center}.hero-visual{order:-1}.hero-mascot-wrap{width:280px;height:280px}.hero-mascot-circle{width:250px;height:250px}.banner{flex-direction:column;text-align:center}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.hero-logo-strip{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="3.png" alt="Little Wear Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="clothes.html">Clothes</a></li>
+    <li><a href="clothes.html?filter=sale">Sale 🔥</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a class="nav-cart" href="checkout.html">
+    🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">⭐ Pakistan's #1 Kids Brand</div>
+    <h1>Dress Little <span class="highlight">Heroes</span><br>in Big Style</h1>
+    <p>Adorable, durable, and playful clothing for your little ones. Crafted with love, designed for adventure across Pakistan!</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="clothes.html">Shop Now 🛍️</a>
+      <a class="btn-secondary" href="clothes.html?filter=sale">Sale Picks 🔥</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-mascot-wrap">
+      <div class="hero-mascot-circle">
+        <img src="2.png" alt="Little Wear Mascot">
+      </div>
+      <div class="hero-tag">✨ Super Soft Fabric</div>
+      <div class="hero-tag">🌈 50+ Unique Designs</div>
+      <div class="hero-tag">💵 Cash on Delivery</div>
+    </div>
+  </div>
+  <!-- Logo strip at bottom of hero -->
+  <div class="hero-logo-strip">
+    <img src="2.png" alt="Little Wear">
+    <span>Little Wear – Pakistan's favourite kids brand</span>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+    <path d="M0,40 C360,0 1080,80 1440,20 L1440,0 L0,0 Z" fill="#B3E5FC"/>
+  </svg>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><span class="stat-num">12K+</span><span class="stat-label">Happy Kids</span></div>
+  <div class="stat"><span class="stat-num">200+</span><span class="stat-label">Unique Designs</span></div>
+  <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Parent Rating</span></div>
+  <div class="stat"><span class="stat-num">COD</span><span class="stat-label">Cash on Delivery</span></div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">Browse by Type</div>
+    <h2 class="section-title">Shop by <span>Category</span></h2>
+    <p class="section-sub">Find the perfect look for every little adventure</p>
+  </div>
+  <div class="categories-grid">
+    <a class="cat-card c1" href="clothes.html?filter=boys"><span class="cat-icon">👕</span><div class="cat-name">Boys' Wear</div><div class="cat-count">60+ items</div></a>
+    <a class="cat-card c2" href="clothes.html?filter=girls"><span class="cat-icon">👗</span><div class="cat-name">Girls' Wear</div><div class="cat-count">55+ items</div></a>
+    <a class="cat-card c3" href="clothes.html?filter=unisex"><span class="cat-icon">🌈</span><div class="cat-name">Unisex Picks</div><div class="cat-count">40+ items</div></a>
+    <a class="cat-card c4" href="clothes.html"><span class="cat-icon">🧥</span><div class="cat-name">Outerwear</div><div class="cat-count">19 items</div></a>
+    <a class="cat-card c5" href="clothes.html?filter=sale"><span class="cat-icon">🏷️</span><div class="cat-name">Sale Items</div><div class="cat-count">Up to 30% off</div></a>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section" style="background:var(--cream);padding-top:70px;padding-bottom:70px">
+  <div class="section-header">
+    <div class="section-tag">Trending Now</div>
+    <h2 class="section-title">⭐ Featured <span>Picks</span></h2>
+    <p class="section-sub">Our best-selling styles loved by families across Pakistan</p>
+  </div>
+  <div class="products-grid" id="featured-grid"></div>
+  <div style="text-align:center;margin-top:44px">
+    <a class="btn-primary" href="clothes.html">View All Products →</a>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner" id="about">
+  <div class="banner-content">
+    <h2>Get <span>20% Off</span><br>Your First Order!</h2>
+    <p>Use code <strong style="color:var(--yellow)">LITTLEFIRST</strong> at checkout. Limited time for new customers.</p>
+    <a class="btn-secondary" href="clothes.html?filter=sale" style="border-color:rgb(28, 169, 212);color:rgb(0, 0, 0);display:inline-flex;align-items:center;gap:8px">Shop the Sale 🏷️</a>
+  </div>
+  <div class="banner-logo">
+    <img src="WhatsApp Image 2026-03-29 at 3.47.01 AM.jpeg" alt="Little Wear">
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:var(--cream)">
+  <div class="section-header">
+    <div class="section-tag">Happy Parents</div>
+    <h2 class="section-title">What Families <span>Say</span></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"My daughter absolutely loves her new dress from Little Wear! The fabric is so soft and the colors are vibrant. Will definitely order again!"</p><div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Sara Ahmed</div><div class="testi-role">Mom of 2 · Karachi</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Fast delivery and amazing quality! My son wears his Little Wear tee every other day. Cash on delivery made it so convenient!"</p><div class="testi-author"><div class="testi-avatar">👨</div><div><div class="testi-name">Bilal Khan</div><div class="testi-role">Dad of 1 · Lahore</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Best kids clothing in Pakistan, hands down. Great prices, stunning designs, and they hold up really well after washing. Love this brand!"</p><div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Nadia Rizvi</div><div class="testi-role">Mom of 3 · Islamabad</div></div></div></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2>Stay in the Loop! 💌</h2>
+  <p>Get first access to new arrivals, exclusive deals and little style inspo.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="✉️ Enter your email address...">
+    <button onclick="showToast('🎉 You\'re subscribed!')">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-wrap">
+        <img src="2.png" alt="Little Wear Logo">
+        <span>LITTLE<b>WEAR</b></span>
+      </div>
+      <p>Making every childhood moment stylish and comfortable. Proudly made for Pakistan's little stars.</p>
+      <div class="footer-socials"><a class="social-btn">📘</a><a class="social-btn">📸</a><a class="social-btn">🐦</a><a class="social-btn">▶️</a></div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="clothes.html">New Arrivals</a></li><li><a href="clothes.html?filter=boys">Boys</a></li><li><a href="clothes.html?filter=girls">Girls</a></li><li><a href="clothes.html?filter=unisex">Unisex</a></li><li><a href="clothes.html?filter=sale">Sale Items</a></li></ul></div>
+    <div class="footer-col"><h4>Help</h4><ul><li><a href="#">Size Guide</a></li><li><a href="#">Shipping Info</a></li><li><a href="#">Returns Policy</a></li><li><a href="#">FAQ</a></li><li><a href="#">Contact Us</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📞 0300-LITTLE-1</a></li><li><a href="#">📧 hello@littlewear.pk</a></li><li><a href="#">📍 Karachi, Pakistan</a></li><li><a href="#">🕐 Mon–Sat: 9am–7pm</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Little Wear. All rights reserved.</span><span>Made with 💙 for Pakistan's little ones</span></div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="products.js"></script>
+<script>
+  function updateCartBadge(){const c=document.getElementById('cart-count');if(c)c.textContent=Cart.count();}
+  updateCartBadge();
+  window.addEventListener('cartUpdated',updateCartBadge);
+
+  const favs=JSON.parse(localStorage.getItem('lw_favs')||'[]');
+  const featured=PRODUCTS.filter(p=>['hot','new'].includes(p.badge)).slice(0,4);
+  document.getElementById('featured-grid').innerHTML=featured.map((p,i)=>`
+    <a class="product-card" href="product.html?id=${p.id}" style="animation:slide-up .4s ease ${i*.08}s both">
+      <div class="product-img-wrap" style="background:linear-gradient(135deg,${p.bg},white)">
+        <div class="logo-placeholder"><img src="logo.png" alt=""></div>
+        ${p.badge?`<div class="product-badge badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='new'?'✨ New':'🏷️ Sale'}</div>`:''}
+        <button class="product-fav" onclick="toggleFav(event,${p.id},this)">${favs.includes(p.id)?'❤️':'🤍'}</button>
+        <span class="emoji-product" style="animation-delay:${Math.random()*2}s">${p.emoji}</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category==='boys'?'👦 Boys':p.category==='girls'?'👧 Girls':'🌈 Unisex'}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-rating"><span class="stars">${'★'.repeat(Math.floor(p.rating))}</span>&nbsp;${p.rating} (${p.reviews})</div>
+        <div class="product-bottom">
+          <div class="product-price">${p.oldPrice?`<span class="old-price">Rs ${p.oldPrice.toLocaleString()}</span>`:''} Rs ${p.price.toLocaleString()}</div>
+          <button class="add-to-cart" onclick="quickAdd(event,${p.id})">+ Cart</button>
+        </div>
+      </div>
+    </a>`).join('');
+
+  function quickAdd(e,id){e.preventDefault();e.stopPropagation();const p=PRODUCTS.find(x=>x.id===id);Cart.add(id,p.sizes[0],p.colors[0].name,1);showToast(`🛒 "${p.name}" added!`);}
+  function toggleFav(e,id,btn){e.preventDefault();e.stopPropagation();let f=JSON.parse(localStorage.getItem('lw_favs')||'[]');if(f.includes(id)){f=f.filter(x=>x!==id);btn.textContent='🤍';}else{f.push(id);btn.textContent='❤️';showToast('❤️ Wishlisted!');}localStorage.setItem('lw_favs',JSON.stringify(f));}
+
+  let _t;
+  function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_t);_t=setTimeout(()=>t.classList.remove('show'),2800);}
+</script>
+</body>
+</html>

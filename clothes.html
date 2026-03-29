@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Clothes – Little Wear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#29B6F6;--blue-light:#81D4FA;--blue-dark:#0288D1;--navy:#0D2440;--navy-mid:#1A3A5C;--white:#FFFFFF;--cream:#F0F9FF;--yellow:#FFD54F;--pink:#FF8A80;--green:#69F0AE;--shadow-blue:rgba(41,182,246,.35);--shadow-navy:rgba(13,36,64,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',sans-serif;background:var(--white);color:var(--navy);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:2px solid var(--blue-light);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px;box-shadow:0 4px 24px rgba(41,182,246,.12)}
+  .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+  .nav-logo img{width:48px;height:48px;object-fit:contain}
+  .nav-brand{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--navy);line-height:1}
+  .nav-brand span{color:var(--blue)}
+  .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+  .nav-links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:1rem;color:var(--navy);text-decoration:none;padding:8px 18px;border-radius:50px;transition:all .25s;cursor:pointer}
+  .nav-links a:hover,.nav-links a.active{background:var(--blue);color:white;transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow-blue)}
+  .nav-cart{background:var(--navy);color:white;border:none;padding:10px 22px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;box-shadow:0 4px 14px var(--shadow-navy);text-decoration:none}
+  .nav-cart:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow-blue)}
+  .cart-badge{background:var(--yellow);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+
+  /* SHOP HERO */
+  .shop-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);padding:130px 5% 60px;display:flex;align-items:center;justify-content:space-between;gap:30px;position:relative;overflow:hidden}
+  .shop-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2329B6F6' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+  .shop-hero-text{position:relative;z-index:2}
+  .shop-hero h1{font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:white;line-height:1.1;margin-bottom:12px}
+  .shop-hero h1 span{color:var(--blue-light)}
+  .shop-hero p{color:rgba(255,255,255,.7);font-size:1rem;font-weight:600}
+  .shop-hero-emoji{font-size:6rem;position:relative;z-index:2;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+
+  /* FILTER BAR */
+  .filter-bar{padding:22px 5%;background:white;box-shadow:0 4px 20px rgba(0,0,0,.05);display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:72px;z-index:100;border-bottom:1px solid rgba(41,182,246,.15)}
+  .filter-label{font-family:'Baloo 2',cursive;font-weight:800;color:var(--navy);font-size:.9rem;margin-right:6px;text-transform:uppercase;letter-spacing:.06em}
+  .filter-btn{padding:8px 18px;border-radius:50px;border:2px solid rgba(41,182,246,.25);background:white;color:var(--navy);font-family:'Baloo 2',cursive;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .22s}
+  .filter-btn:hover,.filter-btn.active{background:var(--blue);color:white;border-color:var(--blue);box-shadow:0 4px 12px var(--shadow-blue);transform:translateY(-2px)}
+  .filter-sort{margin-left:auto;padding:8px 18px;border-radius:50px;border:2px solid rgba(41,182,246,.25);background:white;color:var(--navy);font-family:'Baloo 2',cursive;font-weight:700;font-size:.88rem;cursor:pointer;outline:none}
+
+  /* SHOP LAYOUT */
+  .shop-layout{display:grid;grid-template-columns:260px 1fr;gap:32px;padding:40px 5%;max-width:1400px;margin:0 auto}
+
+  /* SIDEBAR */
+  .sidebar{align-self:start;position:sticky;top:160px}
+  .sidebar-card{background:white;border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 4px 20px rgba(13,36,64,.07);border:1.5px solid rgba(41,182,246,.1)}
+  .sidebar-card h3{font-family:'Baloo 2',cursive;font-weight:800;font-size:.95rem;color:var(--navy);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid rgba(41,182,246,.15);text-transform:uppercase;letter-spacing:.05em}
+  .sidebar-option{display:flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;transition:all .2s}
+  .sidebar-option:hover{transform:translateX(4px)}
+  .sidebar-option input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue);cursor:pointer}
+  .sidebar-option label{font-weight:600;font-size:.9rem;color:#4a6a88;cursor:pointer;flex:1}
+  .sidebar-option .count{font-size:.78rem;color:#aaa;background:#f0f4f8;padding:2px 8px;border-radius:50px;font-weight:700}
+  .price-range{display:flex;gap:10px;align-items:center}
+  .price-input{flex:1;padding:8px 12px;border:2px solid rgba(41,182,246,.25);border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;outline:none;transition:border-color .2s}
+  .price-input:focus{border-color:var(--blue)}
+  .price-sep{color:#aaa;font-weight:700}
+  .color-options{display:flex;flex-wrap:wrap;gap:10px}
+  .color-dot{width:30px;height:30px;border-radius:50%;cursor:pointer;transition:all .2s;position:relative;border:2.5px solid transparent}
+  .color-dot:hover{transform:scale(1.2)}
+  .color-dot.selected{border-color:var(--navy);box-shadow:0 0 0 3px rgba(41,182,246,.3)}
+  .age-options{display:flex;flex-wrap:wrap;gap:8px}
+  .age-btn{padding:6px 14px;border-radius:50px;border:2px solid rgba(41,182,246,.25);background:white;color:var(--navy);font-family:'Baloo 2',cursive;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s}
+  .age-btn:hover,.age-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+  .apply-filter{width:100%;background:var(--navy);color:white;border:none;padding:14px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:.95rem;cursor:pointer;transition:all .25s;margin-top:4px}
+  .apply-filter:hover{background:var(--blue);box-shadow:0 6px 20px var(--shadow-blue);transform:translateY(-2px)}
+
+  /* PRODUCT GRID */
+  .shop-products-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+  .products-count{font-family:'Baloo 2',cursive;font-weight:800;color:var(--navy);font-size:1rem}
+  .products-count span{color:var(--blue)}
+  .view-toggle{display:flex;gap:8px}
+  .view-btn{width:38px;height:38px;border-radius:10px;border:2px solid rgba(41,182,246,.25);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+  .view-btn.active,.view-btn:hover{background:var(--blue);border-color:var(--blue)}
+  .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+
+  /* PRODUCT CARDS */
+  .product-card{background:white;border-radius:24px;overflow:hidden;box-shadow:0 4px 20px rgba(13,36,64,.07);transition:all .35s cubic-bezier(.34,1.56,.64,1);border:1.5px solid rgba(41,182,246,.1);cursor:pointer}
+  .product-card:hover{transform:translateY(-10px);box-shadow:0 24px 50px rgba(13,36,64,.15),0 6px 16px rgba(41,182,246,.15);border-color:var(--blue)}
+  .product-img-wrap{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .emoji-product{font-size:4.5rem;transition:transform .3s ease;filter:drop-shadow(0 10px 20px rgba(0,0,0,.15));animation:item-float 4s ease-in-out infinite}
+  .product-card:hover .emoji-product{transform:scale(1.15) rotate(5deg)}
+  @keyframes item-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .product-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+  .badge-new{background:var(--navy);color:white}
+  .badge-hot{background:var(--pink);color:white}
+  .badge-sale{background:var(--yellow);color:var(--navy)}
+  .product-fav{position:absolute;top:12px;right:12px;width:36px;height:36px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;transition:transform .2s}
+  .product-fav:hover{transform:scale(1.2)}
+  .product-info{padding:16px 18px 18px}
+  .product-category{font-size:.78rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .product-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:var(--navy);margin-bottom:6px;line-height:1.3}
+  .product-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;font-size:.8rem;color:#888;font-weight:600}
+  .stars{color:#FFD54F;font-size:.88rem}
+  .size-options{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+  .size-chip{padding:3px 8px;border:1.5px solid #ddd;border-radius:6px;font-size:.7rem;font-weight:700;color:#666}
+  .product-bottom{display:flex;align-items:center;justify-content:space-between}
+  .product-price{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--navy)}
+  .old-price{font-family:'Nunito',sans-serif;font-size:.82rem;color:#aaa;text-decoration:line-through;margin-right:4px;font-weight:600}
+  .add-to-cart{background:var(--navy);color:white;border:none;padding:9px 16px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .22s}
+  .add-to-cart:hover{background:var(--blue);transform:scale(1.06);box-shadow:0 6px 18px var(--shadow-blue)}
+/* Price range — contained inside sidebar card */
+.price-range{display:flex;gap:8px;align-items:center;width:100%}
+.price-input{flex:1;min-width:0;padding:8px 10px;border:2px solid rgba(41,182,246,.25);border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;outline:none;transition:border-color .2s;width:100%;max-width:95px}
+.price-input:focus{border-color:var(--blue)}
+.price-sep{color:#aaa;font-weight:700;flex-shrink:0}
+
+.color-options{display:flex;flex-wrap:wrap;gap:8px}
+.color-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:all .2s;border:2.5px solid transparent;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.color-dot:hover{transform:scale(1.2)}
+.color-dot.selected{border-color:var(--navy);box-shadow:0 0 0 3px rgba(41,182,246,.3)}
+.age-options{display:flex;flex-wrap:wrap;gap:7px}
+.age-btn{padding:5px 12px;border-radius:50px;border:2px solid rgba(41,182,246,.25);background:white;color:var(--navy);font-family:'Baloo 2',cursive;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s}
+.age-btn:hover,.age-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.apply-filter{width:100%;background:var(--navy);color:white;border:none;padding:13px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:.92rem;cursor:pointer;transition:all .25s}
+.apply-filter:hover{background:var(--blue);box-shadow:0 6px 20px var(--shadow-blue);transform:translateY(-2px)}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:white;padding:60px 5% 30px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+  .footer-brand p{font-size:.9rem;line-height:1.7;opacity:.65;margin:16px 0 24px;font-weight:600}
+  .footer-socials{display:flex;gap:12px}
+  .social-btn{width:40px;height:40px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:all .22s;text-decoration:none}
+  .social-btn:hover{background:var(--blue);transform:translateY(-3px)}
+  .footer-col h4{font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:var(--blue-light);margin-bottom:18px;text-transform:uppercase;letter-spacing:.06em}
+  .footer-col ul{list-style:none}
+  .footer-col ul li{margin-bottom:10px}
+  .footer-col ul li a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.9rem;font-weight:600;transition:color .2s;cursor:pointer}
+  .footer-col ul li a:hover{color:var(--blue-light)}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;opacity:.5;font-weight:600;flex-wrap:wrap;gap:10px}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 24px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;box-shadow:0 8px 30px rgba(13,36,64,.3);display:flex;align-items:center;gap:10px;z-index:9999;transform:translateY(100px) scale(.8);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+  .toast.show{transform:translateY(0) scale(1);opacity:1}
+
+  @media(max-width:900px){.shop-layout{grid-template-columns:1fr}.sidebar{position:static}.footer-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.footer-grid{grid-template-columns:1fr}nav{padding:0 4%}.nav-links a{padding:7px 12px;font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="3.png" alt="Little Wear Logo">
+    <div class="nav-brand">LITTLE<span>WEAR</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="clothes.html" class="active">Clothes</a></li>
+    <li><a href="clothes.html?filter=sale">Sale 🔥</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a class="nav-cart" href="checkout.html">
+    🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+  </a>
+</nav>
+
+<div class="shop-hero">
+  <div class="shop-hero-text">
+    <h1>Kids <span>Clothes</span> 👕</h1>
+    <p>200+ adorable styles for your little stars · All ages · Fast delivery across Pakistan</p>
+  </div>
+  <div class="shop-hero-emoji">🛍️</div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+  <button class="filter-btn" onclick="filterProducts('boys',this)">👦 Boys</button>
+  <button class="filter-btn" onclick="filterProducts('girls',this)">👧 Girls</button>
+  <button class="filter-btn" onclick="filterProducts('unisex',this)">🌈 Unisex</button>
+  <button class="filter-btn" onclick="filterProducts('sale',this)">🏷️ Sale</button>
+  <select class="filter-sort" onchange="sortProducts(this.value)">
+    <option value="">Sort by</option>
+    <option value="low">Price: Low → High</option>
+    <option value="high">Price: High → Low</option>
+    <option value="rating">Top Rated</option>
+    <option value="new">Newest First</option>
+  </select>
+</div>
+
+<div class="shop-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>🎨 Colour</h3>
+      <div class="color-options">
+        <div class="color-dot" style="background:#29B6F6" title="Blue" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#FF8A80" title="Red" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#FFD54F" title="Yellow" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#69F0AE" title="Green" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#CE93D8" title="Purple" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#FFAB91" title="Orange" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#0D2440" title="Navy" onclick="toggleColor(this)"></div>
+        <div class="color-dot" style="background:#EEEEEE;border:2px solid #ddd" title="White" onclick="toggleColor(this)"></div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <h3>👶 Age Group</h3>
+      <div class="age-options">
+        <button class="age-btn" onclick="toggleAge(this)">0–2y</button>
+        <button class="age-btn" onclick="toggleAge(this)">3–5y</button>
+        <button class="age-btn" onclick="toggleAge(this)">6–8y</button>
+        <button class="age-btn" onclick="toggleAge(this)">9–12y</button>
+        <button class="age-btn" onclick="toggleAge(this)">12–14y</button>
+      </div>
+    </div>
+ <div class="sidebar-card">
+      <h3>💰 Price Range (Rs)</h3>
+      <div class="price-range">
+        <input class="price-input" type="number" id="price-min" placeholder="Min" value="100">
+        <span class="price-sep">–</span>
+        <input class="price-input" type="number" id="price-max" placeholder="Max" value="9999">
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <h3>👕 Type</h3>
+      <div class="sidebar-option"><input type="checkbox" id="c1" checked><label for="c1">Tops & Tees</label><span class="count">48</span></div>
+      <div class="sidebar-option"><input type="checkbox" id="c2"><label for="c2">Bottoms</label><span class="count">32</span></div>
+      <div class="sidebar-option"><input type="checkbox" id="c3"><label for="c3">Dresses</label><span class="count">27</span></div>
+      <div class="sidebar-option"><input type="checkbox" id="c4"><label for="c4">Outerwear</label><span class="count">19</span></div>
+      <div class="sidebar-option"><input type="checkbox" id="c5"><label for="c5">Sets</label><span class="count">15</span></div>
+      <div class="sidebar-option"><input type="checkbox" id="c6"><label for="c6">Accessories</label><span class="count">22</span></div>
+    </div>
+    <button class="apply-filter" onclick="applyFilters()">Apply Filters ✓</button>
+  </aside>
+
+  <div>
+    <div class="shop-products-header">
+      <div class="products-count">Showing <span id="product-count">16</span> products</div>
+      <div class="view-toggle">
+        <button class="view-btn active" onclick="setView('grid',this)">⊞</button>
+        <button class="view-btn" onclick="setView('list',this)">☰</button>
+      </div>
+    </div>
+    <div class="shop-grid" id="shop-grid"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.8rem;color:white">LITTLE<span style="color:var(--blue)">WEAR</span></div>
+      <p>Making every childhood moment stylish and comfortable. Proudly made for Pakistan's little stars.</p>
+      <div class="footer-socials"><a class="social-btn">📘</a><a class="social-btn">📸</a><a class="social-btn">🐦</a></div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="clothes.html">New Arrivals</a></li><li><a href="clothes.html?filter=boys">Boys</a></li><li><a href="clothes.html?filter=girls">Girls</a></li><li><a href="clothes.html?filter=sale">Sale</a></li></ul></div>
+    <div class="footer-col"><h4>Help</h4><ul><li><a>Size Guide</a></li><li><a>Shipping Info</a></li><li><a>Returns</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📞 0300-5489271</a></li><li><a>📧 orders@littlewear.pk</a></li><li><a>📍 Karachi, Pakistan</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Little Wear. All rights reserved.</span><span>Made with 💙 for Pakistan's little ones</span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script>
+// state management variables
+let currentFilterCategory = 'all';
+let selectedColors = [];
+let selectedAges = [];
+let currentSort = '';
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartBadge();
+
+  // Check for filter in URL and initialize
+  const params = new URLSearchParams(window.location.search);
+  const filterParam = params.get('filter');
+  if (filterParam) {
+    const btn = document.querySelector(`.filter-btn[onclick*="'${filterParam}'"]`);
+    if (btn) {
+      currentFilterCategory = filterParam;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  }
+  
+  applyAllFilters();
+});
+
+// the centralized filtering function that uses state to filter all at once
+function applyAllFilters() {
+    let list = [...PRODUCTS];
+
+    // 1. Category
+    if (currentFilterCategory === 'all') { /* do nothing */ }
+    else if (currentFilterCategory === 'sale') { list = list.filter(p => p.sale); }
+    else { list = list.filter(p => p.category === currentFilterCategory); }
+
+    // 2. Price
+    const min = parseInt(document.getElementById('price-min').value) || 0;
+    const max = parseInt(document.getElementById('price-max').value) || 99999;
+    list = list.filter(p => p.price >= min && p.price <= max);
+
+    // 3. Color
+    if (selectedColors.length > 0) {
+        list = list.filter(p => p.colors.some(c => selectedColors.includes(c.name)));
+    }
+
+    // 4. Age
+    if (selectedAges.length > 0) {
+        list = list.filter(p => selectedAges.includes(p.ageGroup));
+    }
+
+    // 5. Sort
+    const sortVal = document.querySelector('.filter-sort').value;
+    if (sortVal === 'low') list.sort((a,b) => a.price - b.price);
+    if (sortVal === 'high') list.sort((a,b) => b.price - a.price);
+    if (sortVal === 'rating') list.sort((a,b) => b.rating - a.rating);
+    if (sortVal === 'new') list.sort((a,b) => b.id - a.id);
+
+    renderShop(list);
+}
+
+function renderShop(list) {
+  const grid = document.getElementById('shop-grid');
+  document.getElementById('product-count').textContent = list.length;
+  if (list.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#aaa"><div style="font-size:4rem">🧐</div><p style="font-size:1.1rem;font-weight:700;margin-top:12px">No products found</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="location.href='product.html?id=${p.id}'">
+      <div class="product-img-wrap" style="background:linear-gradient(135deg,${p.bg},white)">
+        ${p.badge ? `<div class="product-badge badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='new'?'✨ New':'🏷️ Sale'}</div>` : ''}
+        <div class="product-fav" onclick="event.stopPropagation();toggleFav(this)">🤍</div>
+        <span class="emoji-product">${p.emoji}</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category==='boys'?'👦 Boys':p.category==='girls'?'👧 Girls':'🌈 Unisex'}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-rating"><span class="stars">${'★'.repeat(Math.floor(p.rating))}</span>&nbsp;${p.rating} (${p.reviews})</div>
+        <div class="size-options">${p.sizes.slice(0,3).map(s=>`<span class="size-chip">${s}</span>`).join('')}${p.sizes.length>3?`<span class="size-chip">+${p.sizes.length-3}</span>`:''}</div>
+        <div class="product-bottom">
+          <div class="product-price">${p.oldPrice?`<span class="old-price">Rs ${p.oldPrice.toLocaleString()}</span>`:''}Rs ${p.price.toLocaleString()}</div>
+          <button class="add-to-cart" onclick="event.stopPropagation();quickAdd(${p.id})">+ Cart</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(filter, btn) {
+  currentFilterCategory = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyAllFilters(); // uses central function
+}
+
+function sortProducts(val) {
+  currentSort = val;
+  applyAllFilters(); // uses central function
+}
+
+function applyFilters() {
+  applyAllFilters(); // uses central function
+  showToast('✅ Filters applied!');
+}
+
+function toggleFav(el) { el.textContent = el.textContent === '🤍' ? '❤️' : '🤍'; }
+
+function toggleColor(el) {
+  // get the color name from title
+  const colorName = el.getAttribute('title');
+  // toggle visual style
+  el.classList.toggle('selected');
+
+  // update selected colors state
+  if (el.classList.contains('selected')) {
+    selectedColors.push(colorName);
+  } else {
+    selectedColors = selectedColors.filter(c => c !== colorName);
+  }
+  
+  applyAllFilters(); // uses central function
+}
+
+function toggleAge(el) {
+  const ageGroup = el.textContent;
+  el.classList.toggle('active');
+
+  // update selected age state
+  if (el.classList.contains('active')) {
+    selectedAges.push(ageGroup);
+  } else {
+    selectedAges = selectedAges.filter(a => a !== ageGroup);
+  }
+  
+  applyAllFilters(); // uses central function
+}
+
+function quickAdd(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  addToCart(id, p.sizes[0], p.colors[0].name);
+  showToast(`🛒 "${p.name}" added to cart!`);
+}
+
+function setView(v, btn) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const g = document.getElementById('shop-grid');
+  if (v==='list') {
+    g.style.gridTemplateColumns='1fr';
+  } else {
+    g.style.gridTemplateColumns='repeat(auto-fill,minmax(220px,1fr))';
+  }
+}
+</script>
+</body>
+</html>

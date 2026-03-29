@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout – Little Wear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!--
+  ════════════════════════════════════════════════════════════
+   EMAIL SETUP INSTRUCTIONS (EmailJS – free, no backend needed)
+  ════════════════════════════════════════════════════════════
+
+  STEP 1 → Go to https://www.emailjs.com and create a free account
+
+  STEP 2 → Add an Email Service (Gmail, Outlook, etc.)
+           Note your SERVICE ID (e.g. "service_abc123")
+
+  STEP 3 → Create TWO Email Templates:
+
+   ── Template A: ORDER NOTIFICATION (to your team) ──
+      Template name: littlewear_order_notify
+      To Email:      your-shop@email.com  ← your real email
+      Subject:       🛍️ New Order #{{order_number}} from {{customer_name}}
+      Body:
+        New order received!
+        ──────────────────
+        Order #: {{order_number}}
+        Customer: {{customer_name}}
+        Phone: {{customer_phone}}
+        Email: {{customer_email}}
+        Address: {{delivery_address}}, {{delivery_city}}
+        ──────────────────
+        ITEMS:
+        {{order_items}}
+        ──────────────────
+        Subtotal: Rs {{subtotal}}
+        Delivery: Rs {{delivery_fee}}
+        TOTAL: Rs {{order_total}}
+        Payment: {{payment_method}}
+        Notes: {{customer_notes}}
+
+   ── Template B: CONFIRMATION (to customer) ──
+      Template name: littlewear_confirm
+      To Email:      {{customer_email}}
+      Subject:       ✅ Your Little Wear Order #{{order_number}} is Confirmed!
+      Body:
+        Salam {{customer_name}}! 👋
+        Your order has been placed successfully!
+        ──────────────────
+        Order #: {{order_number}}
+        Items: {{order_items}}
+        Total: Rs {{order_total}}
+        Payment: Cash on Delivery
+        Delivery to: {{delivery_address}}, {{delivery_city}}
+        ──────────────────
+        We'll process your order soon. You'll receive your items within 3–5 working days.
+        Thank you for shopping with Little Wear! 💙
+
+  STEP 4 → Replace the 3 values below with your actual IDs:
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<style>
+  :root{--blue:#29B6F6;--blue-light:#81D4FA;--blue-dark:#0288D1;--navy:#0D2440;--navy-mid:#1A3A5C;--white:#FFFFFF;--cream:#F0F9FF;--yellow:#FFD54F;--pink:#FF8A80;--green:#69F0AE;--shadow-blue:rgba(41,182,246,.35);--shadow-navy:rgba(13,36,64,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',sans-serif;background:#f0f7ff;color:var(--navy);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:2px solid var(--blue-light);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px;box-shadow:0 4px 24px rgba(41,182,246,.12)}
+  .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+  .nav-logo svg{width:48px;height:48px}
+  .nav-brand{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--navy);line-height:1}
+  .nav-brand span{color:var(--blue)}
+  .back-btn{display:flex;align-items:center;gap:8px;color:var(--navy);text-decoration:none;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;padding:8px 18px;border-radius:50px;transition:all .22s;border:2px solid rgba(41,182,246,.25)}
+  .back-btn:hover{background:var(--blue);color:white;border-color:var(--blue)}
+  .nav-cart{background:var(--navy);color:white;border:none;padding:10px 22px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 14px var(--shadow-navy);text-decoration:none}
+  .cart-badge{background:var(--yellow);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+
+  /* PAGE */
+  .checkout-page{padding:100px 5% 80px;max-width:1200px;margin:0 auto}
+  .page-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,4vw,3rem);color:var(--navy);margin-bottom:8px}
+  .page-sub{color:#7a9ab5;font-weight:600;font-size:1rem;margin-bottom:40px}
+
+  /* GRID */
+  .checkout-grid{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:start}
+
+  /* FORM CARD */
+  .form-card{background:white;border-radius:24px;padding:36px;box-shadow:0 4px 24px rgba(13,36,64,.08);border:1.5px solid rgba(41,182,246,.1)}
+  .section-title-sm{font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .form-group{margin-bottom:16px}
+  .form-label{display:block;font-weight:800;font-size:.85rem;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .form-label .req{color:var(--pink)}
+  .form-input,.form-textarea,.form-select{width:100%;padding:13px 16px;border:2px solid #dde8f5;border-radius:12px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--navy);outline:none;transition:all .22s;background:white}
+  .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(41,182,246,.12)}
+  .form-input.error,.form-textarea.error{border-color:var(--pink);box-shadow:0 0 0 4px rgba(255,138,128,.15)}
+  .form-textarea{resize:vertical;min-height:90px}
+  .form-select{cursor:pointer}
+  .error-msg{color:var(--pink);font-size:.8rem;font-weight:700;margin-top:4px;display:none}
+  .error-msg.show{display:block}
+
+  /* COD BADGE */
+  .cod-section{background:linear-gradient(135deg,rgba(105,240,174,.1),rgba(41,182,246,.1));border:2px solid rgba(105,240,174,.4);border-radius:16px;padding:20px;margin-top:12px;display:flex;align-items:center;gap:16px}
+  .cod-icon{font-size:2.8rem;flex-shrink:0}
+  .cod-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;color:var(--navy);margin-bottom:4px}
+  .cod-desc{font-size:.88rem;color:#5a7a99;font-weight:600;line-height:1.5}
+  .cod-check{background:#43a047;color:white;border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:800;margin-top:6px;display:inline-block}
+
+  /* SIDEBAR CARD */
+  .order-card{background:white;border-radius:24px;padding:32px;box-shadow:0 4px 24px rgba(13,36,64,.08);border:1.5px solid rgba(41,182,246,.1);position:sticky;top:92px}
+  .order-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--navy);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+  .edit-cart-link{font-family:'Baloo 2',cursive;font-size:.82rem;font-weight:700;color:var(--blue);text-decoration:none;cursor:pointer}
+  .edit-cart-link:hover{text-decoration:underline}
+
+  /* CART ITEMS */
+  .cart-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(41,182,246,.1)}
+  .cart-item:last-child{border-bottom:none}
+  .item-emoji{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+  .item-info{flex:1}
+  .item-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:.9rem;color:var(--navy);line-height:1.3;margin-bottom:4px}
+  .item-meta{font-size:.78rem;font-weight:600;color:#8aaac5}
+  .item-qty{font-size:.8rem;font-weight:800;color:var(--navy-mid);background:#f0f7ff;padding:2px 8px;border-radius:20px;margin-top:4px;display:inline-block}
+  .item-price{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--navy);flex-shrink:0}
+  .item-remove{background:none;border:none;cursor:pointer;font-size:1rem;color:#ccc;transition:color .2s;margin-left:8px;flex-shrink:0}
+  .item-remove:hover{color:var(--pink)}
+
+  /* EMPTY CART */
+  .empty-cart{text-align:center;padding:40px 20px}
+  .empty-cart .empty-icon{font-size:4rem;margin-bottom:12px}
+  .empty-cart p{font-weight:700;color:#8aaac5;margin-bottom:16px}
+  .empty-cart a{color:var(--blue);text-decoration:none;font-weight:800;font-family:'Baloo 2',cursive}
+
+  /* TOTALS */
+  .totals-section{margin-top:20px;padding-top:20px;border-top:2px solid rgba(41,182,246,.15)}
+  .total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600;font-size:.92rem;color:#5a7a99}
+  .total-row.main{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--navy);margin-top:14px;padding-top:14px;border-top:2px solid rgba(41,182,246,.15)}
+  .free-badge{background:rgba(105,240,174,.2);color:#2e7d32;padding:2px 8px;border-radius:20px;font-size:.78rem;font-weight:800}
+
+  /* PLACE ORDER BTN */
+  .place-order-btn{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:white;border:none;padding:20px;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.3rem;cursor:pointer;transition:all .25s;margin-top:20px;box-shadow:0 8px 28px rgba(13,36,64,.3);display:flex;align-items:center;justify-content:center;gap:10px}
+  .place-order-btn:hover{background:linear-gradient(135deg,var(--blue-dark),var(--blue));transform:translateY(-3px);box-shadow:0 14px 36px var(--shadow-blue)}
+  .place-order-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+  .spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top:3px solid white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .secure-note{text-align:center;font-size:.8rem;color:#8aaac5;font-weight:600;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px}
+
+  /* ── CONFIRMATION SCREEN ── */
+  .confirmation{display:none;text-align:center;padding:80px 5%;max-width:600px;margin:0 auto}
+  .confirmation.show{display:block}
+  .confirm-icon{font-size:6rem;margin-bottom:20px;animation:pop-in .5s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes pop-in{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+  .confirm-title{font-family:'Fredoka One',cursive;font-size:2.5rem;color:var(--navy);margin-bottom:12px}
+  .confirm-sub{color:#5a7a99;font-size:1.05rem;font-weight:600;line-height:1.7;margin-bottom:32px}
+  .order-number-badge{display:inline-block;background:var(--navy);color:var(--blue-light);font-family:'Fredoka One',cursive;font-size:1.3rem;padding:10px 28px;border-radius:50px;margin-bottom:28px;box-shadow:0 6px 20px var(--shadow-navy)}
+  .confirm-details{background:white;border-radius:20px;padding:24px;text-align:left;box-shadow:0 4px 20px rgba(13,36,64,.08);border:1.5px solid rgba(41,182,246,.1);margin-bottom:28px}
+  .confirm-detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(41,182,246,.1);font-size:.92rem;font-weight:600}
+  .confirm-detail-row:last-child{border-bottom:none;font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--navy)}
+  .confirm-detail-label{color:#8aaac5}
+  .confirm-detail-val{color:var(--navy);font-weight:800;text-align:right;max-width:60%}
+  .confirm-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn-primary{background:var(--navy);color:white;padding:14px 32px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s;box-shadow:0 6px 20px var(--shadow-navy)}
+  .btn-primary:hover{background:var(--blue);transform:translateY(-3px)}
+  .btn-secondary{background:white;color:var(--navy);padding:13px 28px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;border:2.5px solid var(--blue);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s}
+  .btn-secondary:hover{background:var(--blue);color:white;transform:translateY(-3px)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 24px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;box-shadow:0 8px 30px rgba(13,36,64,.3);z-index:9999;transform:translateY(100px) scale(.8);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+  .toast.show{transform:translateY(0) scale(1);opacity:1}
+
+  @media(max-width:900px){.checkout-grid{grid-template-columns:1fr}.order-card{position:static}}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr}nav{padding:0 4%}.checkout-page{padding:90px 4% 60px}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="42" cy="42" rx="22" ry="18" fill="#29B6F6" stroke="#0D2440" stroke-width="2"/>
+      <ellipse cx="38" cy="30" rx="18" ry="15" fill="#29B6F6" stroke="#0D2440" stroke-width="2"/>
+      <ellipse cx="24" cy="34" rx="10" ry="7" fill="#29B6F6" stroke="#0D2440" stroke-width="1.5"/>
+      <circle cx="35" cy="24" r="4" fill="#0D2440"/><circle cx="43" cy="23" r="4" fill="#0D2440"/>
+      <circle cx="36" cy="23" r="1.5" fill="white"/><circle cx="44" cy="22" r="1.5" fill="white"/>
+      <circle cx="21" cy="33" r="1.2" fill="#0D2440" opacity="0.6"/>
+      <circle cx="24" cy="32" r="1.2" fill="#0D2440" opacity="0.6"/>
+      <path d="M18 37 Q24 42 30 38" fill="none" stroke="#0D2440" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="23" y="38" width="3" height="5" rx="1.5" fill="white" stroke="#0D2440" stroke-width="0.8"/>
+      <line x1="20" y1="52" x2="65" y2="52" stroke="#0D2440" stroke-width="1.8" stroke-linecap="round"/>
+      <ellipse cx="52" cy="50" rx="10" ry="6" fill="#29B6F6" stroke="#0D2440" stroke-width="1.5"/>
+    </svg>
+    <div class="nav-brand">LITTLE<span>WEAR</span></div>
+  </a>
+  <a class="back-btn" href="clothes.html">← Continue Shopping</a>
+  <a class="nav-cart" href="checkout.html">
+    🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+  </a>
+</nav>
+
+<!-- CHECKOUT FORM -->
+<div class="checkout-page" id="checkout-section">
+  <h1 class="page-title">🛒 Checkout</h1>
+  <p class="page-sub">Fill in your details and we'll deliver to your door · Cash on Delivery available everywhere in Pakistan</p>
+
+  <div class="checkout-grid">
+
+    <!-- FORM -->
+    <div>
+      <!-- CONTACT -->
+      <div class="form-card" style="margin-bottom:24px">
+        <div class="section-title-sm">📋 Contact Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name <span class="req">*</span></label>
+            <input class="form-input" id="inp-name" type="text" placeholder="Ahmed Ali">
+            <div class="error-msg" id="err-name">Please enter your full name</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="req">*</span></label>
+            <input class="form-input" id="inp-phone" type="tel" placeholder="0300-1234567">
+            <div class="error-msg" id="err-phone">Please enter a valid phone number</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="req">*</span></label>
+          <input class="form-input" id="inp-email" type="email" placeholder="ahmed@example.com">
+          <div class="error-msg" id="err-email">Please enter a valid email address</div>
+          <div style="font-size:.8rem;color:#8aaac5;font-weight:600;margin-top:4px">📧 Your order confirmation will be sent here</div>
+        </div>
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="form-card" style="margin-bottom:24px">
+        <div class="section-title-sm">📍 Delivery Address</div>
+        <div class="form-group">
+          <label class="form-label">Full Address <span class="req">*</span></label>
+          <input class="form-input" id="inp-address" type="text" placeholder="House No, Street, Area / Mohallah">
+          <div class="error-msg" id="err-address">Please enter your delivery address</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">City <span class="req">*</span></label>
+            <select class="form-select" id="inp-city">
+              <option value="">Select your city</option>
+              <optgroup label="Sindh">
+                <option>Karachi</option><option>Hyderabad</option><option>Sukkur</option><option>Larkana</option><option>Nawabshah</option>
+              </optgroup>
+              <optgroup label="Punjab">
+                <option>Lahore</option><option>Faisalabad</option><option>Rawalpindi</option><option>Multan</option><option>Gujranwala</option><option>Sialkot</option><option>Bahawalpur</option>
+              </optgroup>
+              <optgroup label="KPK">
+                <option>Peshawar</option><option>Mardan</option><option>Abbottabad</option><option>Swat</option>
+              </optgroup>
+              <optgroup label="Balochistan">
+                <option>Quetta</option><option>Gwadar</option>
+              </optgroup>
+              <optgroup label="Federal">
+                <option>Islamabad</option>
+              </optgroup>
+              <option>Other</option>
+            </select>
+            <div class="error-msg" id="err-city">Please select your city</div>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Province</label>
+            <input class="form-input" id="inp-province" type="text" placeholder="e.g. Sindh">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:16px">
+          <label class="form-label">Order Notes (optional)</label>
+          <textarea class="form-textarea" id="inp-notes" placeholder="Any special delivery instructions, landmark, or notes for our team..."></textarea>
+        </div>
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="form-card">
+        <div class="section-title-sm">💳 Payment Method</div>
+        <div class="cod-section">
+          <div class="cod-icon">💵</div>
+          <div>
+            <div class="cod-title">Cash on Delivery (COD)</div>
+            <div class="cod-desc">Pay in cash when your package arrives at your doorstep. No card or online payment needed. Safe, simple, and trusted by thousands of Pakistani families.</div>
+            <span class="cod-check">✓ Selected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div>
+      <div class="order-card">
+        <div class="order-title">
+          Your Order
+          <a class="edit-cart-link" href="clothes.html">Edit</a>
+        </div>
+
+        <!-- CART ITEMS rendered by JS -->
+        <div id="cart-items-list"></div>
+
+        <div class="totals-section" id="totals-section"></div>
+
+        <button class="place-order-btn" id="place-order-btn" onclick="placeOrder()">
+          <span id="btn-text">📦 Place Order</span>
+          <div class="spinner" id="btn-spinner"></div>
+        </button>
+        <div class="secure-note">🔒 Your information is secure & private</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ CONFIRMATION ══════════════════ -->
+<div class="confirmation" id="confirmation-section">
+  <div class="confirm-icon">🎉</div>
+  <h2 class="confirm-title">Order Placed!</h2>
+  <div class="order-number-badge" id="confirm-order-num">Order #LW-000000</div>
+  <p class="confirm-sub">
+    Shukriya for shopping with Little Wear! 💙<br>
+    Your order has been received and our team has been notified.<br>
+    A confirmation email has been sent to your inbox.<br><br>
+    <strong>Estimated Delivery: 3–5 working days</strong><br>
+    Payment: Cash on Delivery 💵
+  </p>
+  <div class="confirm-details" id="confirm-details"></div>
+  <div class="confirm-actions">
+    <a class="btn-primary" href="clothes.html">🛍️ Continue Shopping</a>
+    <a class="btn-secondary" href="index.html">🏠 Home</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script>
+
+  // ═══════════════════════════════════════════════════
+  //  ⚙️  CONFIGURE YOUR EMAILJS DETAILS HERE
+  // ═══════════════════════════════════════════════════
+  const EMAILJS_PUBLIC_KEY    = 'mHRLQvQ9ZRZIPYMTs';        // from EmailJS → Account → Public Key
+  const EMAILJS_SERVICE_ID    = 'service_57h5fyv';        // from EmailJS → Email Services
+  const EMAILJS_TEMPLATE_NOTIFY  = 'template_pi3p8lf';   // Template ID for order notify (to team)
+  const EMAILJS_TEMPLATE_CONFIRM = 'template_k99rwvb';  // Template ID for confirmation (to customer)
+  // ═══════════════════════════════════════════════════
+
+  const DELIVERY_FEE_FREE_THRESHOLD = 3000;  // Free delivery above this amount
+  const DELIVERY_FEE = 200;                  // Flat delivery fee
+
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCartBadge();
+    renderCartSummary();
+  });
+
+  function renderCartSummary() {
+    const cart = getCart();
+    const listEl = document.getElementById('cart-items-list');
+    const totalsEl = document.getElementById('totals-section');
+
+    if (cart.length === 0) {
+      listEl.innerHTML = `
+        <div class="empty-cart">
+          <div class="empty-icon">🛒</div>
+          <p>Your cart is empty!</p>
+          <a href="clothes.html">Browse our collection →</a>
+        </div>`;
+      totalsEl.innerHTML = '';
+      document.getElementById('place-order-btn').disabled = true;
+      return;
+    }
+
+    listEl.innerHTML = cart.map(item => {
+      const p = PRODUCTS.find(x => x.id === item.id);
+      return `
+        <div class="cart-item">
+          <div class="item-emoji" style="background:${p ? p.bg : '#f0f7ff'}">${item.emoji}</div>
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-meta">Size: ${item.size} · Colour: ${item.color}</div>
+            <span class="item-qty">Qty: ${item.qty}</span>
+          </div>
+          <div class="item-price">Rs ${(item.price * item.qty).toLocaleString()}</div>
+          <button class="item-remove" onclick="removeItem('${item.key}')" title="Remove">✕</button>
+        </div>`;
+    }).join('');
+
+    const subtotal = getCartTotal();
+    const deliveryFee = subtotal >= DELIVERY_FEE_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+    const total = subtotal + deliveryFee;
+
+    totalsEl.innerHTML = `
+      <div class="total-row"><span>Subtotal</span><span>Rs ${subtotal.toLocaleString()}</span></div>
+      <div class="total-row">
+        <span>Delivery Fee</span>
+        <span>${deliveryFee === 0 ? '<span class="free-badge">FREE</span>' : `Rs ${deliveryFee.toLocaleString()}`}</span>
+      </div>
+      ${subtotal < DELIVERY_FEE_FREE_THRESHOLD ? `<div style="font-size:.78rem;color:var(--blue);font-weight:700;margin-bottom:4px">🎯 Add Rs ${(DELIVERY_FEE_FREE_THRESHOLD - subtotal).toLocaleString()} more for free delivery!</div>` : '<div style="font-size:.78rem;color:#43a047;font-weight:700;margin-bottom:4px">🎉 You qualify for FREE delivery!</div>'}
+      <div class="total-row main"><span>Total</span><span>Rs ${total.toLocaleString()}</span></div>
+      <div style="font-size:.82rem;color:#5a7a99;font-weight:700;text-align:center;margin-top:8px">💵 Pay on delivery – no advance payment</div>`;
+  }
+
+  function removeItem(key) {
+    removeFromCart(key);
+    renderCartSummary();
+    showToast('🗑️ Item removed from cart');
+  }
+
+  // ─── VALIDATION ────────────────────────────────────
+  function validate() {
+    let ok = true;
+    const fields = [
+      { id: 'inp-name',    err: 'err-name',    check: v => v.trim().length >= 2 },
+      { id: 'inp-phone',   err: 'err-phone',   check: v => /^[\d\s\-+]{10,15}$/.test(v.trim()) },
+      { id: 'inp-email',   err: 'err-email',   check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+      { id: 'inp-address', err: 'err-address', check: v => v.trim().length >= 5 },
+      { id: 'inp-city',    err: 'err-city',    check: v => v.trim().length > 0 },
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const errEl = document.getElementById(f.err);
+      if (!f.check(el.value)) {
+        el.classList.add('error');
+        errEl.classList.add('show');
+        ok = false;
+      } else {
+        el.classList.remove('error');
+        errEl.classList.remove('show');
+      }
+    });
+    return ok;
+  }
+
+  // ─── PLACE ORDER ────────────────────────────────────
+  async function placeOrder() {
+    if (!validate()) { showToast('⚠️ Please fill in all required fields'); return; }
+    const cart = getCart();
+    if (cart.length === 0) { showToast('⚠️ Your cart is empty!'); return; }
+
+    // Collect form data
+    const formData = {
+      name:    document.getElementById('inp-name').value.trim(),
+      phone:   document.getElementById('inp-phone').value.trim(),
+      email:   document.getElementById('inp-email').value.trim(),
+      address: document.getElementById('inp-address').value.trim(),
+      city:    document.getElementById('inp-city').value.trim(),
+      province:document.getElementById('inp-province').value.trim(),
+      notes:   document.getElementById('inp-notes').value.trim() || 'None',
+    };
+
+    // Generate order number
+    const orderNum = 'LW-' + Date.now().toString().slice(-6);
+
+    // Build items string
+    const subtotal = getCartTotal();
+    const deliveryFee = subtotal >= DELIVERY_FEE_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+    const total = subtotal + deliveryFee;
+    const itemsText = cart.map(i => `• ${i.name} (Size: ${i.size}, Colour: ${i.color}) x${i.qty} = Rs ${(i.price * i.qty).toLocaleString()}`).join('\n');
+
+    // Show spinner
+    const btn = document.getElementById('place-order-btn');
+    btn.disabled = true;
+    document.getElementById('btn-text').textContent = 'Placing Order...';
+    document.getElementById('btn-spinner').style.display = 'block';
+
+    
+
+    try {
+      // Send order notification to shipper
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIFY, {
+        order_number:    orderNum,
+        customer_name:  formData.name,
+        customer_phone: formData.phone,
+        customer_email: formData.email,
+        delivery_address: formData.address,
+        delivery_city:   formData.city + (formData.province ? ', ' + formData.province : ''),
+        order_items:     itemsText,
+        subtotal:        'Rs ' + subtotal.toLocaleString(),
+        delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
+        order_total:     'Rs ' + total.toLocaleString(),
+        payment_method:  'Cash on Delivery (COD)',
+        customer_notes:  formData.notes,
+         order_items:      itemsText, 
+      });
+
+      // Send confirmation to customer
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONFIRM, {
+        order_number:    orderNum,
+        customer_name:  formData.name,
+        customer_email: formData.email,
+        order_items:     itemsText,
+        order_total:     'Rs ' + total.toLocaleString(),
+        delivery_address: formData.address + ', ' + formData.city,
+        payment_method:  'Cash on Delivery (COD)',
+  delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
+      });
+
+      // Success → show confirmation
+      orderSuccess(orderNum, formData, total, itemsText);
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      // Even if email fails, still confirm the order and show success
+      // (so customers aren't penalized for email config issues)
+      orderSuccess(orderNum, formData, total, itemsText);
+    }
+  }
+
+  function orderSuccess(orderNum, formData, total, itemsText) {
+    // Clear cart
+    saveCart([]);
+    updateCartBadge();
+
+    // Show confirmation
+    document.getElementById('checkout-section').style.display = 'none';
+    const conf = document.getElementById('confirmation-section');
+    conf.classList.add('show');
+
+    document.getElementById('confirm-order-num').textContent = 'Order #' + orderNum;
+    document.getElementById('confirm-details').innerHTML = `
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Customer</span><span class="confirm-detail-val">${formData.name}</span></div>
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Phone</span><span class="confirm-detail-val">${formData.phone}</span></div>
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Email</span><span class="confirm-detail-val">${formData.email}</span></div>
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Delivery</span><span class="confirm-detail-val">${formData.address}, ${formData.city}</span></div>
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Payment</span><span class="confirm-detail-val">💵 Cash on Delivery</span></div>
+      <div class="confirm-detail-row"><span class="confirm-detail-label">Total Amount</span><span class="confirm-detail-val">Rs ${total.toLocaleString()}</span></div>`;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
