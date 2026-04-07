@@ -8,6 +8,10 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -23,7 +27,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .nav-cart{background:var(--navy);color:white;border:none;padding:10px 20px;border-radius:50px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all .25s;box-shadow:0 4px 14px var(--shadow-navy)}
 .nav-cart:hover{background:var(--blue);transform:translateY(-2px)}
 .cart-badge{background:var(--yellow);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+/* Add this inside your <style> tag */
+body {
+    padding-top: 64px; /* Matches the height of the nav (h-16) */
+}
 
+/* Ensure Tailwind doesn't conflict with your existing link styles */
+nav a {
+    text-decoration: none !important;
+}
 /* HERO */
 .hero{min-height:100vh;background:linear-gradient(135deg,var(--cream) 0%,#E1F5FE 55%,#B3E5FC 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(41,182,246,.2) 0%,transparent 70%);border-radius:50%;animation:pulse-blob 4s ease-in-out infinite}
@@ -177,21 +189,48 @@ footer{background:var(--navy);color:white;padding:60px 5% 30px}
 <body>
 
 <!-- NAV -->
-<nav>
-  <a class="nav-logo" href="index.html">
-    <img src="3.png" alt="Little Wear Logo">
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="clothes.html">Clothes</a></li>
-    <li><a href="clothes.html?filter=sale">Sale 🔥</a></li>
-    <li><a href="index.html#about">About</a></li>
-  </ul>
-  <a class="nav-cart" href="checkout.html">
-    🛒 Cart <span class="cart-badge" id="cart-count">0</span>
-  </a>
-</nav>
+<nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-[#eaeff2]">
+ <div class="flex justify-between items-center px-4 md:px-12 h-16 w-full">
+    <a href="index.html" class="flex items-center gap-3 decoration-none">
+      <img src="2.png" alt="Little Wear" class="h-9 w-auto object-contain">
+      <span class="text-lg font-black tracking-tighter text-[#2c3437] uppercase" style="font-family: 'Plus Jakarta Sans', sans-serif;">Little Wear</span>
+    </a>
 
+    <div class="hidden md:flex gap-8 items-center h-full">
+      <a class="text-[#596064] font-medium hover:text-[#2c3437] transition-colors text-sm decoration-none" href="index.html">Home</a>
+            <a class="text-[#596064] font-medium hover:text-[#2c3437] transition-colors text-sm decoration-none" href="clothes.html">Clothes</a>
+      <div class="relative group h-full flex items-center">
+        <a class="text-[#00639e] font-semibold text-sm cursor-pointer flex items-center gap-1 py-4 decoration-none" href="clothes.html">
+          Shop 
+          <span class="material-symbols-outlined text-[18px] transition-transform duration-300 group-hover:-rotate-180">expand_more</span>
+        </a>
+        
+        
+        <div class="absolute top-full left-0 pt-2 opacity-0 translate-y-3 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+          <div class="bg-white border border-[#eaeff2] shadow-2xl rounded-lg p-2 w-56 flex flex-col gap-1">
+            <a href="baby.html#shop-section" class="px-4 py-2.5 text-sm font-semibold text-[#596064] hover:bg-[#f0f4f7] hover:text-[#00639e] rounded-md transition-colors flex justify-between items-center decoration-none group/item">
+              Baby (0-2y) <span class="material-symbols-outlined text-[16px] opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all">chevron_right</span>
+            </a>
+            <a href="child.html#shop-section" class="px-4 py-2.5 text-sm font-semibold text-[#596064] hover:bg-[#f0f4f7] hover:text-[#00639e] rounded-md transition-colors flex justify-between items-center decoration-none group/item">
+              Child (3-8y) <span class="material-symbols-outlined text-[16px] opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all">chevron_right</span>
+            </a>
+            <div class="h-px bg-[#eaeff2] my-1 mx-2"></div>
+            <a href="clothes.html?cat=adult" class="px-4 py-2.5 text-sm font-semibold text-[#596064] hover:bg-[#f0f4f7] hover:text-[#00639e] rounded-md transition-colors flex justify-between items-center decoration-none group/item">
+              Collection <span class="material-symbols-outlined text-[16px] opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all">chevron_right</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button onclick="CartUI.open()" class="relative text-[#2c3437] hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer">
+        <span class="material-symbols-outlined text-[26px]">shopping_bag</span>
+        <span id="cart-badge" class="absolute -top-1 -right-1 bg-[#00639e] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
 <!-- HERO -->
 <section class="hero">
   <div class="hero-content">
@@ -250,31 +289,27 @@ footer{background:var(--navy);color:white;padding:60px 5% 30px}
     <a class="cat-card c5" href="clothes.html?filter=sale"><span class="cat-icon">🏷️</span><div class="cat-name">Sale Items</div><div class="cat-count">Up to 30% off</div></a>
   </div>
 </section>
-
-<!-- FEATURED -->
-<section class="section" style="background:var(--cream);padding-top:70px;padding-bottom:70px">
-  <div class="section-header">
-    <div class="section-tag">Trending Now</div>
-    <h2 class="section-title">⭐ Featured <span>Picks</span></h2>
-    <p class="section-sub">Our best-selling styles loved by families across Pakistan</p>
-  </div>
-  <div class="products-grid" id="featured-grid"></div>
-  <div style="text-align:center;margin-top:44px">
-    <a class="btn-primary" href="clothes.html">View All Products →</a>
-  </div>
-</section>
-
-<!-- BANNER -->
-<div class="banner" id="about">
-  <div class="banner-content">
-    <h2>Get <span>20% Off</span><br>Your First Order!</h2>
-    <p>Use code <strong style="color:var(--yellow)">LITTLEFIRST</strong> at checkout. Limited time for new customers.</p>
-    <a class="btn-secondary" href="clothes.html?filter=sale" style="border-color:rgb(28, 169, 212);color:rgb(0, 0, 0);display:inline-flex;align-items:center;gap:8px">Shop the Sale 🏷️</a>
-  </div>
-  <div class="banner-logo">
-    <img src="WhatsApp Image 2026-03-29 at 3.47.01 AM.jpeg" alt="Little Wear">
-  </div>
+<div id="cart-overlay" onclick="CartUI.close()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-500"></div>
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-[400px] bg-white z-[70] translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] shadow-2xl flex flex-col">
+    <div class="p-6 border-b border-[#eaeff2] flex justify-between items-center">
+        <h2 class="text-xl font-black tracking-tighter text-[#2c3437]">YOUR BAG</h2>
+        <button onclick="CartUI.close()" class="text-[#596064] hover:rotate-90 transition-transform duration-300">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+        </div>
+    <div class="p-6 border-t border-[#eaeff2] bg-[#f7f9fb]">
+        <div class="flex justify-between mb-4">
+            <span class="font-medium text-[#596064]">Total</span>
+            <span id="cart-total" class="font-black text-lg text-[#2c3437]">Rs 0</span>
+        </div>
+        <button class="w-full bg-[#00639e] text-white py-4 rounded-xl font-bold hover:bg-[#00578b] transition-colors shadow-lg shadow-blue-900/10">
+            Checkout Now
+        </button>
+    </div>
 </div>
+<!-- FEATURED -->
 
 <!-- TESTIMONIALS -->
 <section class="section" style="background:var(--cream)">
@@ -346,9 +381,109 @@ footer{background:var(--navy);color:white;padding:60px 5% 30px}
 
   function quickAdd(e,id){e.preventDefault();e.stopPropagation();const p=PRODUCTS.find(x=>x.id===id);Cart.add(id,p.sizes[0],p.colors[0].name,1);showToast(`🛒 "${p.name}" added!`);}
   function toggleFav(e,id,btn){e.preventDefault();e.stopPropagation();let f=JSON.parse(localStorage.getItem('lw_favs')||'[]');if(f.includes(id)){f=f.filter(x=>x!==id);btn.textContent='🤍';}else{f.push(id);btn.textContent='❤️';showToast('❤️ Wishlisted!');}localStorage.setItem('lw_favs',JSON.stringify(f));}
+/* ... existing code above ... */
+
+  function toggleFav(e,id,btn){e.preventDefault();e.stopPropagation();let f=JSON.parse(localStorage.getItem('lw_favs')||'[]');if(f.includes(id)){f=f.filter(x=>x!==id);btn.textContent='🤍';}else{f.push(id);btn.textContent='❤️';}localStorage.setItem('lw_favs',JSON.stringify(f));}
+
+  // --- PASTE NEW CODE HERE (Line 776) ---
+  function updateNavBadge() {
+    const badge = document.getElementById('cart-badge');
+    if (badge) {
+      const count = JSON.parse(localStorage.getItem('lw_cart') || '[]')
+        .reduce((sum, item) => sum + item.qty, 0);
+      badge.textContent = count;
+    }
+  }
+
+  const originalAdd = Cart.add;
+  Cart.add = function(...args) {
+    originalAdd.apply(Cart, args);
+    updateNavBadge();
+  };
+
+  window.addEventListener('DOMContentLoaded', updateNavBadge);
+  // --- END OF NEW CODE ---
+// 1. Create a bridge for the Nav Cart button
+window.CartUI = {
+  open: () => {
+    // If you haven't added the Drawer HTML to index.html yet, 
+    // we can redirect them to the cart page or show an alert.
+    window.location.href = 'clothes.html'; 
+  }
+};
+
+// 2. Update the badge count automatically
+function updateNavBadge() {
+  const badge = document.getElementById('cart-badge');
+  if (badge) {
+    const cart = JSON.parse(localStorage.getItem('lw_cart') || '[]');
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    badge.textContent = count;
+    // Hide badge if empty for a cleaner look
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+}
+
+// 3. Listen for changes
+window.addEventListener('DOMContentLoaded', updateNavBadge);
+
+// Wrap your existing Cart.add to refresh the nav
+const originalCartAdd = Cart.add;
+Cart.add = function(...args) {
+  originalCartAdd.apply(Cart, args);
+  updateNavBadge();
+};
 
   let _t;
   function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_t);_t=setTimeout(()=>t.classList.remove('show'),2800);}
+
+  window.CartUI = {
+    open: () => {
+        document.getElementById('cart-overlay').classList.remove('opacity-0', 'pointer-events-none');
+        document.getElementById('cart-drawer').classList.remove('translate-x-full');
+        CartUI.render();
+    },
+    close: () => {
+        document.getElementById('cart-overlay').classList.add('opacity-0', 'pointer-events-none');
+        document.getElementById('cart-drawer').classList.add('translate-x-full');
+    },
+    render: () => {
+        const items = JSON.parse(localStorage.getItem('lw_cart') || '[]');
+        const container = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        
+        if (items.length === 0) {
+            container.innerHTML = `<div class="text-center py-10 text-[#596064] font-medium">Your bag is empty</div>`;
+            totalEl.textContent = 'Rs 0';
+            return;
+        }
+
+        container.innerHTML = items.map(item => `
+            <div class="flex gap-4">
+                <div class="w-20 h-24 bg-[#f0f4f7] rounded-lg flex items-center justify-center text-3xl">${item.emoji || '👕'}</div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-[#2c3437] text-sm">${item.name}</h4>
+                    <p class="text-xs text-[#596064] mt-1">${item.size} / ${item.color}</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs font-bold text-[#596064]">Qty: ${item.qty}</span>
+                        <span class="font-black text-sm">Rs ${(item.price * item.qty).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        const total = items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        totalEl.textContent = `Rs ${total.toLocaleString()}`;
+    }
+};
+
+// Auto-open drawer when adding an item (Optional)
+const oldAdd = Cart.add;
+Cart.add = function(...args) {
+    oldAdd.apply(Cart, args);
+    updateNavBadge(); // From previous step
+    CartUI.open();
+};
 </script>
 </body>
 </html>

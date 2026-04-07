@@ -7,60 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<!--
-  ════════════════════════════════════════════════════════════
-   EMAIL SETUP INSTRUCTIONS (EmailJS – free, no backend needed)
-  ════════════════════════════════════════════════════════════
-
-  STEP 1 → Go to https://www.emailjs.com and create a free account
-
-  STEP 2 → Add an Email Service (Gmail, Outlook, etc.)
-           Note your SERVICE ID (e.g. "service_abc123")
-
-  STEP 3 → Create TWO Email Templates:
-
-   ── Template A: ORDER NOTIFICATION (to your team) ──
-      Template name: littlewear_order_notify
-      To Email:      your-shop@email.com  ← your real email
-      Subject:       🛍️ New Order #{{order_number}} from {{customer_name}}
-      Body:
-        New order received!
-        ──────────────────
-        Order #: {{order_number}}
-        Customer: {{customer_name}}
-        Phone: {{customer_phone}}
-        Email: {{customer_email}}
-        Address: {{delivery_address}}, {{delivery_city}}
-        ──────────────────
-        ITEMS:
-        {{order_items}}
-        ──────────────────
-        Subtotal: Rs {{subtotal}}
-        Delivery: Rs {{delivery_fee}}
-        TOTAL: Rs {{order_total}}
-        Payment: {{payment_method}}
-        Notes: {{customer_notes}}
-
-   ── Template B: CONFIRMATION (to customer) ──
-      Template name: littlewear_confirm
-      To Email:      {{customer_email}}
-      Subject:       ✅ Your Little Wear Order #{{order_number}} is Confirmed!
-      Body:
-        Salam {{customer_name}}! 👋
-        Your order has been placed successfully!
-        ──────────────────
-        Order #: {{order_number}}
-        Items: {{order_items}}
-        Total: Rs {{order_total}}
-        Payment: Cash on Delivery
-        Delivery to: {{delivery_address}}, {{delivery_city}}
-        ──────────────────
-        We'll process your order soon. You'll receive your items within 3–5 working days.
-        Thank you for shopping with Little Wear! 💙
-
-  STEP 4 → Replace the 3 values below with your actual IDs:
--->
-
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
@@ -178,7 +124,6 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <a class="nav-logo" href="index.html">
     <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
@@ -202,16 +147,13 @@
   </a>
 </nav>
 
-<!-- CHECKOUT FORM -->
 <div class="checkout-page" id="checkout-section">
   <h1 class="page-title">🛒 Checkout</h1>
   <p class="page-sub">Fill in your details and we'll deliver to your door · Cash on Delivery available everywhere in Pakistan</p>
 
   <div class="checkout-grid">
 
-    <!-- FORM -->
     <div>
-      <!-- CONTACT -->
       <div class="form-card" style="margin-bottom:24px">
         <div class="section-title-sm">📋 Contact Information</div>
         <div class="form-row">
@@ -234,7 +176,6 @@
         </div>
       </div>
 
-      <!-- DELIVERY -->
       <div class="form-card" style="margin-bottom:24px">
         <div class="section-title-sm">📍 Delivery Address</div>
         <div class="form-group">
@@ -248,7 +189,7 @@
             <select class="form-select" id="inp-city">
               <option value="">Select your city</option>
               <optgroup label="Sindh">
-                <option>Karachi</option><option>Hyderabad</option><option>Sukkur</option><option>Larkana</option><option>Nawabshah</option>
+                <option>Karachi</option><option>Hyderabad</option><option> Sukkur</option><option>Larkana</option><option>Nawabshah</option>
               </optgroup>
               <optgroup label="Punjab">
                 <option>Lahore</option><option>Faisalabad</option><option>Rawalpindi</option><option>Multan</option><option>Gujranwala</option><option>Sialkot</option><option>Bahawalpur</option>
@@ -277,7 +218,6 @@
         </div>
       </div>
 
-      <!-- PAYMENT -->
       <div class="form-card">
         <div class="section-title-sm">💳 Payment Method</div>
         <div class="cod-section">
@@ -291,7 +231,6 @@
       </div>
     </div>
 
-    <!-- ORDER SUMMARY -->
     <div>
       <div class="order-card">
         <div class="order-title">
@@ -299,7 +238,6 @@
           <a class="edit-cart-link" href="clothes.html">Edit</a>
         </div>
 
-        <!-- CART ITEMS rendered by JS -->
         <div id="cart-items-list"></div>
 
         <div class="totals-section" id="totals-section"></div>
@@ -315,7 +253,6 @@
   </div>
 </div>
 
-<!-- ══════════════════ CONFIRMATION ══════════════════ -->
 <div class="confirmation" id="confirmation-section">
   <div class="confirm-icon">🎉</div>
   <h2 class="confirm-title">Order Placed!</h2>
@@ -336,8 +273,42 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="products.js"></script>
 <script>
+  // Add a simple PRODUCTS object here or link your products.js
+  const PRODUCTS = [
+    {
+      id: 1,
+      name: "Baby Boy Gentleman Outfit",
+      price: 2500,
+      emoji: "👕",
+      bg: "#f0f7ff", // Background for emoji fallback
+    },
+    // Add other product stubs here if needed for correct order summary rendering
+  ];
+</script>
+
+<script>
+  // Simplified Cart handling for this file
+  function getCart() { return JSON.parse(localStorage.getItem('lw_cart') || '[]'); }
+  function saveCart(cart) { localStorage.setItem('lw_cart', JSON.stringify(cart)); }
+  function removeFromCart(key) {
+      const cart = getCart().filter(item => item.key !== key);
+      saveCart(cart);
+      updateCartBadge();
+  }
+  function getCartTotal() { return getCart().reduce((sum, item) => sum + item.price * item.qty, 0); }
+  function updateCartBadge() {
+      const el = document.getElementById('cart-count');
+      if (el) {
+          const count = getCart().reduce((sum, item) => sum + item.qty, 0);
+          el.textContent = count;
+      }
+  }
+  function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+  }
 
   // ═══════════════════════════════════════════════════
   //  ⚙️  CONFIGURE YOUR EMAILJS DETAILS HERE
@@ -468,8 +439,6 @@
     document.getElementById('btn-text').textContent = 'Placing Order...';
     document.getElementById('btn-spinner').style.display = 'block';
 
-    
-
     try {
       // Send order notification to shipper
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIFY, {
@@ -485,8 +454,8 @@
         order_total:     'Rs ' + total.toLocaleString(),
         payment_method:  'Cash on Delivery (COD)',
         customer_notes:  formData.notes,
-         order_items:      itemsText, 
       });
+      console.log("Team notification email sent successfully");
 
       // Send confirmation to customer
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONFIRM, {
@@ -497,8 +466,9 @@
         order_total:     'Rs ' + total.toLocaleString(),
         delivery_address: formData.address + ', ' + formData.city,
         payment_method:  'Cash on Delivery (COD)',
-  delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
+        delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
       });
+      console.log("Customer confirmation email sent successfully");
 
       // Success → show confirmation
       orderSuccess(orderNum, formData, total, itemsText);
@@ -507,6 +477,7 @@
       console.error('EmailJS error:', err);
       // Even if email fails, still confirm the order and show success
       // (so customers aren't penalized for email config issues)
+      // I would suggest adding logging here in a real scenario to track failed emails.
       orderSuccess(orderNum, formData, total, itemsText);
     }
   }
