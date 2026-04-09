@@ -92,20 +92,13 @@
         <p id="p-desc" class="text-on-surface-variant leading-relaxed text-base font-medium"></p>
 
         <div class="space-y-6 border-y border-surface-container py-8">
-          <div class="space-y-4">
-            <div class="flex justify-between items-center">
-              <span class="text-[11px] font-black uppercase tracking-widest">Color: <span id="selected-color-name" class="text-on-surface-variant font-bold"></span></span>
-            </div>
-            <div id="color-options" class="flex gap-3"></div>
-          </div>
-
+          
           <div class="space-y-4">
             <div class="flex justify-between items-center">
               <span class="text-[11px] font-black uppercase tracking-widest">Select Size (Age)</span>
               <button class="text-[10px] font-bold text-primary uppercase tracking-widest underline decoration-primary/30 underline-offset-4">Size Guide</button>
             </div>
-            <div id="size-options" class="grid grid-cols-4 gap-2"></div>
-          </div>
+            <div id="size-options" class="grid grid-cols-2 gap-2"></div> </div>
         </div>
 
         <div class="space-y-4">
@@ -226,7 +219,8 @@
     const stars = Math.floor(p.rating || 5);
     document.getElementById('star-rating').innerHTML = '★'.repeat(stars) + '☆'.repeat(5-stars);
 
-    // Color Options
+    // Color Options (Commented out for future use)
+    /*
     const colorBox = document.getElementById('color-options');
     p.colors.forEach((c, idx) => {
       const btn = document.createElement('button');
@@ -241,10 +235,15 @@
       colorBox.appendChild(btn);
       if(idx===0) btn.click();
     });
+    */
 
     // Size Options
     const sizeBox = document.getElementById('size-options');
-    p.sizes.forEach((s, idx) => {
+    
+    // Custom logic to show specific sizes and comment out others
+    const customSizes = ["Extra Small", "Small" /*, "Medium", "Large" */];
+    
+    customSizes.forEach((s, idx) => {
       const btn = document.createElement('button');
       btn.className = `size-btn border border-surface-container py-3 text-[10px] font-bold uppercase transition-all hover:border-on-surface`;
       btn.textContent = s;
@@ -266,7 +265,7 @@
     grid.innerHTML = related.map(p => `
       <div class="min-w-[280px] w-[280px] group cursor-pointer" onclick="location.href='product.html?id=${p.id}'">
         <div class="aspect-[3/4] bg-surface-container-high rounded-sm mb-4 overflow-hidden">
-          <div class="w-full h-full flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-700">${p.emoji || '👕'}</div>
+          <img src="${p.image || '1.png'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
         </div>
         <h4 class="text-sm font-bold text-on-surface mb-1">${p.name}</h4>
         <p class="text-xs font-black text-on-surface">Rs ${p.price.toLocaleString()}</p>
@@ -277,8 +276,8 @@
   function handleAddToCart() {
     if (!selectedSize) { alert('Please select a size'); return; }
     
-    // Use the helper from your products.js
-    addToCart(currentProduct.id, selectedSize, selectedColor, 1);
+    // Set color to null since the selector is currently disabled
+    addToCart(currentProduct.id, selectedSize, null, 1);
     
     const btn = document.getElementById('add-btn');
     btn.innerHTML = '✓ Added to Bag';
@@ -305,8 +304,6 @@
   
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-
 
 <script src="cart-actions.js"></script>
 </body>
