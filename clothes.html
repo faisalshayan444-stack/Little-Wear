@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="title" content="Little Wear | Premium Kids Clothing in Pakistan">
+<meta name="description" content="Shop the best collection of kids clothing in Pakistan. High-quality outfits for infants and toddlers at Little Wear.">
+<meta name="keywords" content="kids clothing Pakistan, baby clothes, toddler wear, Little Wear, infants outfits">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://littlewear.pk/">
+<meta property="og:title" content="Little Wear | Premium Kids Clothing">
+<meta property="og:description" content="Pakistan's #1 brand for stylish and comfortable kids wear.">
+<meta property="og:image" content="https://littlewear.pk/og-image.jpg">
 <title>Shop All – Little Wear</title>
 
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -55,7 +64,7 @@
   .cart-items-container::-webkit-scrollbar-thumb { background: #acb3b7; border-radius: 10px; }
   
   #shop-grid { perspective: 1200px; }
-  .product-card { transform-style: preserve-3d; backface-visibility: hidden; }
+ 
   input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
   /* 3D FUN PREMIUM LOGO ANIMATION */
@@ -417,9 +426,6 @@ function renderGrid(list) {
       <div class="relative aspect-[3/4] overflow-hidden bg-surface-container mb-4 rounded-sm">
         ${p.badge ? `<div class="absolute top-3 left-3 z-20 bg-white/95 backdrop-blur-sm px-3 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-on-surface shadow-sm">${p.badge.toUpperCase()}</div>` : ''}
         <img src="${p.image || 'https://via.placeholder.com/400x500?text=No+Image'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-        <div class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-20">
-           <button onclick="event.stopPropagation();quickAdd(${p.id})" class="w-full bg-white/95 backdrop-blur-md text-on-surface py-3.5 text-[10px] font-black uppercase tracking-widest hover:bg-on-surface hover:text-white transition-colors border shadow-lg rounded-sm cursor-pointer border-none">Quick Add</button>
-        </div>
       </div>
       <div class="flex flex-col px-1">
         <div class="flex justify-between items-start mb-1.5 gap-2"><h3 class="text-sm font-semibold text-on-surface leading-snug truncate">${p.name}</h3><span class="text-[11px] font-bold text-on-surface-variant flex items-center gap-0.5 shrink-0 pt-0.5"><span class="text-on-surface">★</span> ${p.rating}</span></div>

@@ -13,6 +13,10 @@
 <meta property="og:description" content="Pakistan's #1 brand for stylish and comfortable kids wear.">
 <meta property="og:image" content="https://littlewear.pk/og-image.jpg">
 <title>Checkout – Little Wear</title>
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -74,7 +78,8 @@
   /* CART ITEMS */
   .cart-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(41,182,246,.1)}
   .cart-item:last-child{border-bottom:none}
-  .item-emoji{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+  .item-emoji{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0; overflow:hidden;}
+  .item-emoji img {width: 100%; height: 100%; object-fit: cover;}
   .item-info{flex:1}
   .item-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:.9rem;color:var(--navy);line-height:1.3;margin-bottom:4px}
   .item-meta{font-size:.78rem;font-weight:600;color:#8aaac5}
@@ -93,7 +98,6 @@
   .totals-section{margin-top:20px;padding-top:20px;border-top:2px solid rgba(41,182,246,.15)}
   .total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600;font-size:.92rem;color:#5a7a99}
   .total-row.main{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--navy);margin-top:14px;padding-top:14px;border-top:2px solid rgba(41,182,246,.15)}
-  .free-badge{background:rgba(105,240,174,.2);color:#2e7d32;padding:2px 8px;border-radius:20px;font-size:.78rem;font-weight:800}
 
   /* PLACE ORDER BTN */
   .place-order-btn{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:white;border:none;padding:20px;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.3rem;cursor:pointer;transition:all .25s;margin-top:20px;box-shadow:0 8px 28px rgba(13,36,64,.3);display:flex;align-items:center;justify-content:center;gap:10px}
@@ -135,21 +139,20 @@
   
   /* Fix for the thick back button */
   .back-btn {
-    white-space: nowrap; /* Stops the text from breaking into two lines */
-    padding: 6px 12px;   /* Reduces the bulkiness */
-    font-size: 0.85rem;  /* Scales down the text slightly to fit the screen */
+    white-space: nowrap; 
+    padding: 6px 12px;   
+    font-size: 0.85rem;  
   }
 }
 
-/* Optional: For extremely narrow screens (like older iPhones), just show "← Back" */
 @media(max-width:400px) {
   .back-btn {
-    font-size: 0; /* Hides original text */
+    font-size: 0; 
     padding: 6px 10px;
   }
   .back-btn::after {
     content: "← Back";
-    font-size: 0.85rem; /* Shows shorter text instead */
+    font-size: 0.85rem; 
   }
 }
 </style>
@@ -305,19 +308,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
-  // Add a simple PRODUCTS object here or link your products.js
-  const PRODUCTS = [
-    {
-      id: 1,
-      name: "Baby Boy Gentleman Outfit",
-      price: 2500,
-      emoji: "👕",
-      bg: "#f0f7ff", // Background for emoji fallback
-    },
-    // Add other product stubs here if needed for correct order summary rendering
-  ];
-</script>
+<script src="products.js"></script>
 
 <script>
   // Simplified Cart handling for this file
@@ -351,8 +342,7 @@
   const EMAILJS_TEMPLATE_CONFIRM = 'template_k99rwvb';  // Template ID for confirmation (to customer)
   // ═══════════════════════════════════════════════════
 
-  //const DELIVERY_FEE_FREE_THRESHOLD = //3000;  // Free delivery above this amount
-  const DELIVERY_FEE = 200;                  // Flat delivery fee
+  const DELIVERY_FEE = 200; // Flat delivery fee applied to all orders
 
   emailjs.init(EMAILJS_PUBLIC_KEY);
 
@@ -379,10 +369,12 @@
     }
 
     listEl.innerHTML = cart.map(item => {
-      const p = PRODUCTS.find(x => x.id === item.id);
+      // Changed to use the item's image instead of emoji, based on your previous changes
       return `
         <div class="cart-item">
-          <div class="item-emoji" style="background:${p ? p.bg : '#f0f7ff'}">${item.emoji}</div>
+          <div class="item-emoji" style="background:#f0f7ff">
+             <img src="${item.image || 'https://via.placeholder.com/100x120?text=No+Image'}" alt="${item.name}">
+          </div>
           <div class="item-info">
             <div class="item-name">${item.name}</div>
             <div class="item-meta">Size: ${item.size} · Colour: ${item.color}</div>
@@ -394,16 +386,15 @@
     }).join('');
 
     const subtotal = getCartTotal();
-    const deliveryFee = subtotal >= DELIVERY_FEE_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+    const deliveryFee = DELIVERY_FEE;
     const total = subtotal + deliveryFee;
 
     totalsEl.innerHTML = `
       <div class="total-row"><span>Subtotal</span><span>Rs ${subtotal.toLocaleString()}</span></div>
       <div class="total-row">
         <span>Delivery Fee</span>
-        <span>${deliveryFee === 0 ? '<span class="free-badge">FREE</span>' : `Rs ${deliveryFee.toLocaleString()}`}</span>
+        <span>Rs ${deliveryFee.toLocaleString()}</span>
       </div>
-      ${subtotal < DELIVERY_FEE_FREE_THRESHOLD ? `<div style="font-size:.78rem;color:var(--blue);font-weight:700;margin-bottom:4px">🎯 Add Rs ${(DELIVERY_FEE_FREE_THRESHOLD - subtotal).toLocaleString()} more for free delivery!</div>` : '<div style="font-size:.78rem;color:#43a047;font-weight:700;margin-bottom:4px">🎉 You qualify for FREE delivery!</div>'}
       <div class="total-row main"><span>Total</span><span>Rs ${total.toLocaleString()}</span></div>
       <div style="font-size:.82rem;color:#5a7a99;font-weight:700;text-align:center;margin-top:8px">💵 Pay on delivery – no advance payment</div>`;
   }
@@ -461,7 +452,7 @@
 
     // Build items string
     const subtotal = getCartTotal();
-    const deliveryFee = subtotal >= DELIVERY_FEE_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+    const deliveryFee = DELIVERY_FEE;
     const total = subtotal + deliveryFee;
     const itemsText = cart.map(i => `• ${i.name} (Size: ${i.size}, Colour: ${i.color}) x${i.qty} = Rs ${(i.price * i.qty).toLocaleString()}`).join('\n');
 
@@ -482,7 +473,7 @@
         delivery_city:   formData.city + (formData.province ? ', ' + formData.province : ''),
         order_items:     itemsText,
         subtotal:        'Rs ' + subtotal.toLocaleString(),
-        delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
+        delivery_fee:    'Rs ' + deliveryFee.toLocaleString(),
         order_total:     'Rs ' + total.toLocaleString(),
         payment_method:  'Cash on Delivery (COD)',
         customer_notes:  formData.notes,
@@ -498,7 +489,7 @@
         order_total:     'Rs ' + total.toLocaleString(),
         delivery_address: formData.address + ', ' + formData.city,
         payment_method:  'Cash on Delivery (COD)',
-        delivery_fee:    deliveryFee === 0 ? 'FREE' : 'Rs ' + deliveryFee.toLocaleString(),
+        delivery_fee:    'Rs ' + deliveryFee.toLocaleString(),
       });
       console.log("Customer confirmation email sent successfully");
 
@@ -509,7 +500,6 @@
       console.error('EmailJS error:', err);
       // Even if email fails, still confirm the order and show success
       // (so customers aren't penalized for email config issues)
-      // I would suggest adding logging here in a real scenario to track failed emails.
       orderSuccess(orderNum, formData, total, itemsText);
     }
   }
